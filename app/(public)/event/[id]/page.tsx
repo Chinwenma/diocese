@@ -1,21 +1,21 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getEventBySlug } from "@/lib/events";
 import EventGallery from "../EventGallery";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
 
 type Params = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Params) {
   const { id } = await params;
-  const e = getEventBySlug(id);
+  const e = await prisma.event.findUnique({where: {slug: id}});
   return { title: e ? e.title : "Event" };
 }
 
 export default async function EventDetailPage({ params }: Params) {
   const { id } = await params;
-  const event = getEventBySlug(id);
+  const event =await prisma.event.findUnique({where: {slug: id}});
   if (!event) return notFound();
 
   return (
