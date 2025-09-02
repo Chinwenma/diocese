@@ -2,16 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Megaphone, CalendarDays, Users } from "lucide-react";
+import { LayoutDashboard, Megaphone, CalendarDays, Users, Sliders } from "lucide-react";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const NAV_BY_ROLE: Record<string, Array<{ href: string; label: string; Icon: any }>> = {
   bishop: [
     { href: "/dashboard/bishop", label: "Overview", Icon: LayoutDashboard },
-    // { href: "/dashboard/bishop/announcements", label: "Announcements", Icon: Megaphone },
-    // { href: "/dashboard/bishop/events", label: "Events", Icon: CalendarDays },
     { href: "/dashboard/bishop/homily", label: "Reflections", Icon: Megaphone },
-    // { href: "/dashboard/bishop/clergy", label: "Clergy", Icon: Users },
-    // { href: "/dashboard/bishop/blog", label: "Blogs", Icon: Megaphone },
   ],
   admin: [
     { href: "/dashboard/admin", label: "Overview", Icon: LayoutDashboard },
@@ -19,13 +15,12 @@ const NAV_BY_ROLE: Record<string, Array<{ href: string; label: string; Icon: any
     { href: "/dashboard/admin/events", label: "Events", Icon: CalendarDays },
     { href: "/dashboard/admin/clergy", label: "Clergy", Icon: Users },
     { href: "/dashboard/admin/blog", label: "News", Icon: Users },
-
+    { href: "/dashboard/admin/sliders", label: "Sliders", Icon: Sliders },
   ],
   clergy: [
     { href: "/dashboard/clergy", label: "Overview", Icon: LayoutDashboard },
     { href: "/dashboard/clergy/homily", label: "Reflections", Icon: Megaphone },
     { href: "/dashboard/clergy/events", label: "Events", Icon: CalendarDays },
-
   ],
   // Add more roles as needed
   default: [

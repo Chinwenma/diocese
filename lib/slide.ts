@@ -60,4 +60,4 @@ export const slideData: SlideData[]  = [
   text: 'The Pope is the Bishop of Rome and the visible head of the Catholic Church, entrusted with guiding the faithful in unity, faith, and service to Christ.',
   image: '/assets/pic28.jpg',
 },
-];
+]; 

@@ -11,9 +11,9 @@ import "swiper/css/navigation";
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { slideData } from "@/lib/slide";
+import { Slider } from "@prisma/client";
 
-export default function HeroCarousel() {
+export default function HeroCarousel({ slideData }: { slideData: Slider[] }) {
   const progressRef = useRef<HTMLDivElement>(null);
 
   return (

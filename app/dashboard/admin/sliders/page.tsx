@@ -1,9 +1,8 @@
+import { unstable_noStore } from "next/cache";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import Image from "next/image";
 import ConfirmDelete from "@/app/components/button/confirmDeleteButton";
-
-export const dynamic = "force-dynamic";
 
 type Props = {
   params?: Promise<{
@@ -12,22 +11,18 @@ type Props = {
   }>;
 };
 
-export default async function AnnouncementsList({ params }: Props) {
-  // 1) Read & normalize query param
+export default async function SliderList({ params }: Props) {
+  unstable_noStore();
   const searchParams = await params;
-  const page = Math.max(1, Number((searchParams?.page) ?? 1) || 1);
-  const pageSize = Math.min(
-    50,
-    Math.max(1, Number(searchParams?.pageSize ?? 5) || 10)
-  );
+  const page = Math.max(1, Number(searchParams?.page ?? 1) || 1);
+  const pageSize = Math.min(50, Math.max(1, Number(searchParams?.pageSize ?? 5) || 10));
   const skip = (page - 1) * pageSize;
 
-  // 2) Query DB
   const [total, items] = await Promise.all([
-    prisma.announcement.count(),
-    prisma.announcement.findMany({
-      orderBy: { date: "desc" },
-      select: { title: true, slug: true, image: true, id: true },
+    prisma.slider.count(),
+    prisma.slider.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { title: true, image: true, id: true, subtitle: true },
       skip,
       take: pageSize,
     }),
@@ -35,12 +30,11 @@ export default async function AnnouncementsList({ params }: Props) {
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-  // 3) Helper to build page links
   const q = (p: number) => {
     const params = new URLSearchParams();
     params.set("page", String(p));
     params.set("pageSize", String(pageSize));
-    return `/dashboard/admin/announcements?${params.toString()}`;
+    return `/dashboard/admin/sliders?${params.toString()}`;
   };
 
   return (
@@ -48,15 +42,15 @@ export default async function AnnouncementsList({ params }: Props) {
       <div className="mb-5 flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold tracking-tight">
-            Announcements
+            Sliders
           </h2>
           <p className="text-sm text-slate-500">
-            Create, edit and manage announcements.
+            Create, edit and manage sliders.
           </p>
         </div>
 
         <Link
-          href="/dashboard/admin/announcements/new"
+          href="/dashboard/admin/sliders/new"
           className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600"
         >
           <span>+ Add New</span>
@@ -70,13 +64,13 @@ export default async function AnnouncementsList({ params }: Props) {
               <tr className="text-left text-slate-600">
                 <th className="px-4 py-3 font-medium">Image</th>
                 <th className="px-4 py-3 font-medium">Title</th>
-                <th className="px-4 py-3 font-medium">Slug</th>
+                <th className="px-4 py-3 font-medium">Sub Title</th>
                 <th className="px-4 py-3 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
               {items.map((a) => (
-                <tr key={a.slug} className="border-t">
+                <tr key={a.id} className="border-t">
                   <td className="px-4 py-3">
                     <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-100">
                       {a.image ? (
@@ -90,22 +84,21 @@ export default async function AnnouncementsList({ params }: Props) {
                     </div>
                   </td>
                   <td className="px-4 py-3 font-medium">{a.title}</td>
-                  <td className="px-4 py-3 text-slate-500">{a.slug}</td>
+                  <td className="px-4 py-3 text-slate-500">{a.subtitle}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-3">
                       <Link
                         className="text-blue-700 hover:underline"
-                        href={`/dashboard/admin/announcements/${a.slug}/view`}
+                        href={`/dashboard/admin/sliders/${a.id}/view`}
                       >
                         View
                       </Link>
                       <Link
                         className="text-emerald-700 hover:underline"
-                        href={`/dashboard/admin/announcements/${a.slug}/edit`}
+                        href={`/dashboard/admin/sliders/${a.id}/edit`}
                       >
                         Edit
                       </Link>
-                      
                       <div>
                         <ConfirmDelete
                           title="Delete announcement"
@@ -123,7 +116,7 @@ export default async function AnnouncementsList({ params }: Props) {
               {items.length === 0 && (
                 <tr>
                   <td className="px-4 py-6 text-slate-500" colSpan={4}>
-                    No announcements yet.
+                    No sliders yet.
                   </td>
                 </tr>
               )}
@@ -131,7 +124,7 @@ export default async function AnnouncementsList({ params }: Props) {
           </table>
         </div>
 
-        {/* 4) Pagination controls */}
+        {/* 5) Pagination controls */}
         <div className="flex flex-col gap-3 border-t p-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-sm text-slate-500">
             Page <span className="font-medium text-slate-700">{page}</span> of{" "}
@@ -142,19 +135,17 @@ export default async function AnnouncementsList({ params }: Props) {
           <div className="flex items-center gap-2">
             <Link
               aria-disabled={page <= 1}
-              className={`rounded-lg border px-3 py-1.5 text-sm ${
-                page <= 1
+              className={`rounded-lg border px-3 py-1.5 text-sm ${page <= 1
                   ? "pointer-events-none opacity-40"
                   : "hover:bg-slate-50"
-              }`}
+                }`}
               href={q(Math.max(1, page - 1))}
             >
               ← Prev
             </Link>
 
-            {/* simple numbered pages (max 5) */}
+            {/* Simple numbered pages (max 5) */}
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              // center the window around current page when possible
               const start = Math.max(1, Math.min(page - 2, totalPages - 4));
               const p = start + i;
               if (p > totalPages) return null;
@@ -163,11 +154,10 @@ export default async function AnnouncementsList({ params }: Props) {
                 <Link
                   key={p}
                   href={q(p)}
-                  className={`rounded-lg px-3 py-1.5 text-sm ${
-                    isActive
+                  className={`rounded-lg px-3 py-1.5 text-sm ${isActive
                       ? "bg-amber-500 text-white"
                       : "border hover:bg-slate-50"
-                  }`}
+                    }`}
                 >
                   {p}
                 </Link>
@@ -176,11 +166,10 @@ export default async function AnnouncementsList({ params }: Props) {
 
             <Link
               aria-disabled={page >= totalPages}
-              className={`rounded-lg border px-3 py-1.5 text-sm ${
-                page >= totalPages
+              className={`rounded-lg border px-3 py-1.5 text-sm ${page >= totalPages
                   ? "pointer-events-none opacity-40"
                   : "hover:bg-slate-50"
-              }`}
+                }`}
               href={q(Math.min(totalPages, page + 1))}
             >
               Next →
