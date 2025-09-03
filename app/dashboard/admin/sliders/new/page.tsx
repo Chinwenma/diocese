@@ -7,32 +7,28 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { getImageAuth } from "@/lib/imageKit";
 import slugifyWithUniqueSuffix from "@/lib/slugify";
-import { createAnnouncement } from "@/app/dashboard/actions/create";
+import { createSlider } from "@/app/dashboard/actions/create";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export interface AnnouncementFormData {
+export interface SliderFormData {
   title: string;
-  slug: string;
-  date: string;
   image: string;
-  description: string;
-  details: string;
+  subtitle: string;
+  text: string;
 }
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
 // These two are for image kit provider to work well
-export default function NewAnnouncementPage() {
-  const [formData, setFormData] = useState<AnnouncementFormData>({
+export default function NewSliderPage() {
+  const [formData, setFormData] = useState<SliderFormData>({
     title: "",
-    slug: "",
-    date: "",
     image: "",
-    description: "",
-    details: "",
+    subtitle: "",
+    text: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Partial<AnnouncementFormData>>({});
+  const [errors, setErrors] = useState<Partial<SliderFormData>>({});
   const router = useRouter();
   // Auto-generate slug with unique suffix from title to help us and the user
   //I expect you to do this for everything that has slug
@@ -46,20 +42,18 @@ export default function NewAnnouncementPage() {
   }, [formData.title]);
   /**
    * Validates the form data and returns an object containing any validation errors
-   * @returns {Partial<AnnouncementFormData>} An object containing validation error messages for each field
+   * @returns {Partial<SliderFormData>} An object containing validation error messages for each field
    */
   const validateForm = () => {
-    // Initialize an empty errors object with partial AnnouncementFormData type
-    const newErrors: Partial<AnnouncementFormData> = {};
+    // Initialize an empty errors object with partial SliderFormData type
+    const newErrors: Partial<SliderFormData> = {};
     // Validate title field - check if it's empty after trimming whitespace
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    // Validate slug field - check if it's empty after trimming whitespace
-    if (!formData.slug.trim()) newErrors.slug = "Slug is required";
-    // Validate details field - check if it's empty after trimming whitespace
-    if (!formData.details.trim()) newErrors.details = "Details are required";
-    // Validate description field - check if it's empty after trimming whitespace
-    if (!formData.description.trim())
-      newErrors.description = "Description is required";
+    // Validate text field - check if it's empty after trimming whitespace
+    if (!formData.text.trim()) newErrors.text = "Text is required";
+    // Validate subtitle field - check if it's empty after trimming whitespace
+    if (!formData.subtitle.trim())
+      newErrors.subtitle = "Subtitle is required";
     // Return the validation errors object
     return newErrors;
   };
@@ -71,7 +65,7 @@ export default function NewAnnouncementPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error when user starts typing
-    if (errors[name as keyof AnnouncementFormData]) {
+    if (errors[name as keyof SliderFormData]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
@@ -90,16 +84,13 @@ export default function NewAnnouncementPage() {
     //You looked really beautiful today
     //Let me know if you see this. Reply with your favourite sticker
     try {
-      await createAnnouncement(formData);
-      toast.success("Announcement created successfully");
+      await createSlider(formData);
+      toast.success("Slider created successfully");
       setFormData({
-        //This is to clear the form after submission
         title: "",
-        slug: "",
-        date: "",
         image: "",
-        description: "",
-        details: "",
+        subtitle: "",
+        text: "",
       });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "An error occurred");
@@ -135,7 +126,7 @@ export default function NewAnnouncementPage() {
         className="cursor-pointer my-4"
         onClick={() => router.back()}
       />
-      <h1 className="text-2xl font-semibold mb-4">Create New Announcement</h1>
+      <h1 className="text-2xl font-semibold mb-4">Create New Slider</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div>
@@ -145,46 +136,11 @@ export default function NewAnnouncementPage() {
             value={formData.title}
             onChange={handleChange}
             required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.title ? "border-red-500" : ""
-            }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.title ? "border-red-500" : ""
+              }`}
           />
           {errors.title && (
             <span className="text-red-500 text-sm">{errors.title}</span>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium">Slug</label>
-          <input
-            name="slug"
-            value={formData.slug}
-            onChange={handleChange}
-            required
-            placeholder="ordination-rev-john-doe"
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.slug ? "border-red-500" : ""
-            }`}
-          />
-          {errors.slug && (
-            <span className="text-red-500 text-sm">{errors.slug}</span>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium">Date</label>
-          <input
-            name="date"
-            type="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.date ? "border-red-500" : ""
-            }`}
-          />
-          {errors.date && (
-            <span className="text-red-500 text-sm">{errors.date}</span>
           )}
         </div>
 
@@ -197,7 +153,7 @@ export default function NewAnnouncementPage() {
             authenticator={getImageAuth}
           >
             <IKUpload
-              folder={"/katsina/announcements"}
+              folder={"/katsina/sliders"}
               onSuccess={onImageUploadSuccess}
               onError={onImageUploadError}
               className="mt-1 w-full"
@@ -220,32 +176,32 @@ export default function NewAnnouncementPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Short description</label>
+          <label className="block text-sm font-medium">Sub Title</label>
           <textarea
-            name="description"
-            value={formData.description}
+            name="subtitle"
+            value={formData.subtitle}
             onChange={handleChange}
             rows={3}
             className="mt-1 w-full rounded-lg border px-3 py-2"
             required
           />
-          {errors.description && (
-            <span className="text-red-500 text-sm">{errors.description}</span>
+          {errors.subtitle && (
+            <span className="text-red-500 text-sm">{errors.subtitle}</span>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Details</label>
+          <label className="block text-sm font-medium">Text</label>
           <textarea
-            name="details"
-            value={formData.details}
+            name="text"
+            value={formData.text}
             onChange={handleChange}
             rows={8}
             required
             className="mt-1 w-full rounded-lg border px-3 py-2"
           />
-          {errors.details && (
-            <span className="text-red-500 text-sm">{errors.details}</span>
+          {errors.text && (
+            <span className="text-red-500 text-sm">{errors.text}</span>
           )}
         </div>
 

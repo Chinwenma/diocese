@@ -43,10 +43,10 @@ async function updateAnnouncementAction(oldSlug: string, formData: FormData) {
   });
 
   // Refresh admin list and public detail
-  revalidatePath("/dashboard/announcements");
+  revalidatePath("/dashboard/admin/announcements");
   revalidatePath(`/announcements/${slug}`);
 
-  redirect("/dashboard/announcements");
+  redirect("/dashboard/admin/announcements");
 }
 
 async function deleteAnnouncementAction(slug: string) {

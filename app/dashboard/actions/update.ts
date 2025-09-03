@@ -59,8 +59,10 @@ export async function updateEvent(slugOrId: string, formData: FormData) {
       const buffer = Buffer.from(arrayBuffer);
       const uploadResponse = await imagekit.upload({
         file: buffer,
-        fileName: `event-cover-${slug}-${Date.now()}.${coverFile.name.split(".").pop()}`,
-        folder: "/events/covers",
+        fileName: `event-cover-${slug}-${Date.now()}.${coverFile.name
+          .split(".")
+          .pop()}`,
+        folder: "/katsina/events/covers",
       });
       coverUrl = uploadResponse.url;
 
@@ -91,7 +93,9 @@ export async function updateEvent(slugOrId: string, formData: FormData) {
           const buffer = Buffer.from(arrayBuffer);
           const uploadResponse = await imagekit.upload({
             file: buffer,
-            fileName: `event-image-${slug}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${file.name.split(".").pop()}`,
+            fileName: `event-image-${slug}-${Date.now()}-${Math.random()
+              .toString(36)
+              .substring(2, 8)}.${file.name.split(".").pop()}`,
             folder: "/katsina/events",
           });
           imageUrls.push(uploadResponse.url);
@@ -131,4 +135,70 @@ export async function updateEvent(slugOrId: string, formData: FormData) {
 
   revalidatePath("/dashboard/admin/events");
   redirect("/dashboard/admin/events");
+}
+
+export async function updateSliderAction(oldId: string, formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  const subtitle = String(formData.get("subtitle") ?? "").trim();
+  const text = String(formData.get("text") ?? "").trim();
+  const id = String(formData.get("id") ?? "").trim();
+  if (!title) {
+    throw new Error("Title is required.");
+  }
+  if (!subtitle) {
+    throw new Error("Subtitle is required.");
+  }
+  if (!text) {
+    throw new Error("Text is required.");
+  }
+  const existingSlider = await prisma.slider.findUnique({ where: { id } });
+  if (!existingSlider) {
+    throw new Error("Slider not found.");
+  }
+  let imageUrl = existingSlider.image;
+  const imageFile = formData.get("image");
+  if (imageFile instanceof File && imageFile.size > 0) {
+    try {
+      // Upload new image image
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const uploadResponse = await imagekit.upload({
+        file: buffer,
+        fileName: `slider-image-${id}-${Date.now()}.${imageFile.name
+          .split(".")
+          .pop()}`,
+        folder: "/katsina/sliders/images",
+      });
+      imageUrl = uploadResponse.url;
+
+      // Delete old image image from ImageKit
+      if (existingSlider.image) {
+        const fileId = existingSlider.image.split("/").pop()?.split(".")[0];
+        if (fileId) {
+          try {
+            await imagekit.deleteFile(fileId);
+          } catch (error: any) {
+            console.error(`Failed to delete old image image: ${error.message}`);
+          }
+        }
+      }
+    } catch (error: any) {
+      throw new Error(`Failed to upload image image: ${error.message}`);
+    }
+  }
+
+  await prisma.slider.update({
+    where: { id },
+    data: {
+      title,
+      subtitle,
+      text,
+      image: imageUrl,
+    },
+  });
+
+  // Refresh admin list and public detail
+  revalidatePath("/dashboard/admin/sliders");
+  revalidatePath(`/`);
+  redirect("/dashboard/admin/sliders");
 }

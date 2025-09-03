@@ -1,23 +1,18 @@
-import { unstable_noStore } from "next/cache";
+
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import Image from "next/image";
 import ConfirmDelete from "@/app/components/button/confirmDeleteButton";
 
 type Props = {
-  params?: Promise<{
-    page?: string;
-    pageSize?: string;
-  }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default async function SliderList({ params }: Props) {
-  unstable_noStore();
-  const searchParams = await params;
-  const page = Math.max(1, Number(searchParams?.page ?? 1) || 1);
-  const pageSize = Math.min(50, Math.max(1, Number(searchParams?.pageSize ?? 5) || 10));
+export default async function SliderList({ searchParams }: Props) {
+  const searchParamsResolved = await searchParams;
+  const page = Math.max(1, Number(searchParamsResolved?.page ?? 1) || 1);
+  const pageSize = Math.min(50, Math.max(1, Number(searchParamsResolved?.pageSize ?? 5) || 10));
   const skip = (page - 1) * pageSize;
-
   const [total, items] = await Promise.all([
     prisma.slider.count(),
     prisma.slider.findMany({
@@ -27,10 +22,7 @@ export default async function SliderList({ params }: Props) {
       take: pageSize,
     }),
   ]);
-console.log(items);
-
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
-
   const q = (p: number) => {
     const params = new URLSearchParams();
     params.set("page", String(p));

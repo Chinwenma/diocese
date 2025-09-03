@@ -8,33 +8,32 @@ type Props = { params: Promise<{ id: string }> };
 // (Optional) SEO for the admin view page
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
-  const item = await prisma.announcement.findUnique({
-    where: { slug: id },
-    select: { title: true, description: true, image: true },
+  const item = await prisma.slider.findUnique({
+    where: { id },
+    select: { title: true, subtitle: true, image: true },
   });
-  if (!item) return { title: "Announcement not found" };
+  if (!item) return { title: "Slider not found" };
   return {
     title: `View: ${item.title}`,
-    description: item.description,
+    description: item.subtitle,
     openGraph: {
       title: item.title,
-      description: item.description,
+      description: item.subtitle,
       images: item.image ? [{ url: item.image }] : undefined,
     },
   };
 }
 
-export default async function AdminAnnouncementView({ params }: Props) {
+export default async function AdminSliderView({ params }: Props) {
   const { id } = await params;
-  const item = await prisma.announcement.findUnique({
-    where: { slug: id },
+  const item = await prisma.slider.findUnique({
+    where: { id },
     select: {
+      id: true,
       title: true,
-      slug: true,
       image: true,
-      description: true,
-      details: true,
-      date: true,
+      subtitle: true,
+      text: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -46,20 +45,17 @@ export default async function AdminAnnouncementView({ params }: Props) {
     <div className="p-6">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold">Announcement Details</h1>
-          <p className="text-sm text-slate-500">
-            Slug: <span className="font-mono">{item.slug}</span>
-          </p>
+          <h1 className="text-xl font-semibold">Slider Details</h1>
         </div>
         <div className="flex gap-2">
           <Link
-            href={`/dashboard/announcements/${item.slug}/edit`}
+            href={`/dashboard/sliders/${item.id}/edit`}
             className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50"
           >
             Edit
           </Link>
           <Link
-            href="/dashboard/admin/announcements"
+            href="/dashboard/admin/sliders"
             className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50"
           >
             ← Back
@@ -72,7 +68,7 @@ export default async function AdminAnnouncementView({ params }: Props) {
         <div className="rounded-2xl border bg-white p-5">
           <div className="flex items-center justify-between text-sm text-slate-500">
             <span>
-              {item.date.toLocaleDateString("en-US", {
+              {item.createdAt.toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -101,12 +97,12 @@ export default async function AdminAnnouncementView({ params }: Props) {
 
           <h2 className="mt-6 text-2xl font-bold">{item.title}</h2>
 
-          {item.description && (
-            <p className="mt-3 text-slate-700">{item.description}</p>
+          {item.subtitle && (
+            <p className="mt-3 text-slate-700">{item.subtitle}</p>
           )}
 
           <div className="prose prose-slate mt-6 max-w-none whitespace-pre-wrap">
-            {item.details || (
+            {item.text || (
               <p className="text-slate-500">No additional details provided.</p>
             )}
           </div>
@@ -124,10 +120,6 @@ export default async function AdminAnnouncementView({ params }: Props) {
               <div className="flex justify-between gap-4">
                 <dt className="text-slate-500">Updated</dt>
                 <dd>{item.updatedAt.toLocaleDateString()}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-slate-500">Slug</dt>
-                <dd className="font-mono">{item.slug}</dd>
               </div>
             </dl>
           </div>
