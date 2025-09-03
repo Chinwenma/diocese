@@ -15,7 +15,6 @@ import { Slider } from "@prisma/client";
 
 export default function HeroCarousel({ slideData }: { slideData: Slider[] }) {
   const progressRef = useRef<HTMLDivElement>(null);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -84,16 +83,6 @@ export default function HeroCarousel({ slideData }: { slideData: Slider[] }) {
                   className="object-cover object-top"
                 />
               </div>
-              {/* <div className="flex-1 relative w-full h-full bg-black">
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-scale-down object-center md:object-cover md:object-center w-full"
-                />
-              </div> */}
             </div>
           </SwiperSlide>
         ))}

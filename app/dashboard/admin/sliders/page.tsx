@@ -27,6 +27,7 @@ export default async function SliderList({ params }: Props) {
       take: pageSize,
     }),
   ]);
+console.log(items);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
