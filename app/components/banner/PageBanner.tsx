@@ -8,6 +8,7 @@ interface PageBannerProps {
   title: string;
   subtitle?: string;
   backgroundImage?: string;
+  className?: string;
 }
 
 export default function PageBanner({
@@ -36,7 +37,7 @@ export default function PageBanner({
         transition={{ duration: 0.8 }}
         className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4"
       >
-        <h1 className={`${cormorant.className} text-2xl md:text-5xl font-bold text-white drop-shadow-md`}>
+        <h1 className={`${cormorant.className} text-2xl md:text-5xl font-extrabold text-white drop-shadow-md`}>
           {title}
         </h1>
         {subtitle && (

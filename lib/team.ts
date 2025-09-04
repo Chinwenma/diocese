@@ -22,7 +22,7 @@ export const team: TeamMember[] = [
     id: 3,
     role: "Marriage Tribunal",
     name: "Msgr. Atado Joseph",
-    image: "/assets/i.jpg",
+    image: "",
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ export const team: TeamMember[] = [
     id: 6,
     role: "Education",
     name: "Msgr. Atado Joseph",
-    image: "/assets/offices/education.jpg",
+    image: "",
   },
   {
     id: 7,
@@ -64,6 +64,6 @@ export const team: TeamMember[] = [
     id: 10,
     role: "Diocesan Auditor",
     name: "Mr. Sylvester Dogo",
-    image: "/assets/offices/auditor.jpg",
+    image: "",
   },
 ];

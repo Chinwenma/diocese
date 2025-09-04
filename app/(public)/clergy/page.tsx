@@ -45,7 +45,7 @@ export default async function ClergyDirectory({
   return (
     <main>
       <PageBanner
-      title="Priests, Chaplains, and Offices; Catholic Diocese of Katsina"
+      title="Priests, and Offices; Catholic Diocese of Katsina"
 subtitle="A complete directory of clergy and pastoral leadership"
       />
     <section className="bg-white px-4 py-12">

@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { team } from "@/lib/team";
@@ -19,7 +18,7 @@ export default function TeamSection() {
           >
             <div className="relative w-40 h-40 mb-4">
               <Image
-                src={member.image}
+                src={member.image || "/assets/default.jpg"}
                 alt={member.name}
                 fill
                 className="rounded-full object-cover object-top border-2 border-red-700 group-hover:border-yellow-400"
