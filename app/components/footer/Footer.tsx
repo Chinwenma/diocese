@@ -88,8 +88,8 @@ export const Footer = () => {
             Get in Touch with Us
           </h3>
           <ul className="space-y-2 text-sm">
-            <li>St. Martin De Porres Catholic Cathedral Church</li>
-            <li>Katsina, Katsina State, Nigeria</li>
+            <li>Nagogo Road, Opposite NITEL Exchange GRA</li>
+            <li>P.O. BOX 55, Katsina State, Nigeria</li>
             <li>+234 810 646 4244</li>
             <li>cathdiokatcomm@gmail.com</li>
           </ul>

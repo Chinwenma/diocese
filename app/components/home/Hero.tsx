@@ -80,7 +80,7 @@ export default function HeroCarousel({ slideData }: { slideData: Slider[] }) {
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-top"
+                  className="object-cover object-top w-full"
                 />
               </div>
             </div>

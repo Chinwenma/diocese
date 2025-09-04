@@ -15,7 +15,7 @@ export default async function DashboardHome() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <CardStat label="Announcements" value={annCount} href='/dashboard/admin/announcements' />
         <CardStat label="Events" value={evtCount} href='/dashboard/admin/events' />
-        <CardStat label="Blogs" value={blogCount} href='/dashboard/admin/blogs' />
+        <CardStat label="Blogs" value={blogCount} href='/dashboard/admin/blog' />
         <CardStat label="Clergy" value={clergyCount} href='/dashboard/admin/clergy' />
         <CardStat label="Sliders" value={sliders} href='/dashboard/admin/sliders' />
       </div>
