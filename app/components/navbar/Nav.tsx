@@ -57,7 +57,7 @@ const Navbar = () => {
         </Link>
 
         <h1
-          className={`${cinzel.className} font-semibold text-base sm:text-sm md:text-4xl lg:text-5xl leading-snug text-center flex-1 px-2 truncate`}
+          className={`${cinzel.className} font-semibold text-base sm:text-sm md:text-4xl lg:text-5xl text-center flex-1 px-2`}
           title="Catholic Diocese of Katsina"
         >
           Catholic Diocese of Katsina
