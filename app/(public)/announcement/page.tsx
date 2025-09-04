@@ -44,42 +44,72 @@ export default async function AnnouncementsPage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="space-y-8">
-          {/* Highlights */}
-          <div className="bg-white p-6 rounded shadow">
-            <h3 className="text-xl font-semibold mb-4 ">Upcoming Highlights</h3>
-            <ul className="space-y-3 text-sm">
-              {announcements.map((a, idx) => (
-                <li key={idx}>
-                  <Link href={`/announcements/${idx}`} className="text-red-700 hover:underline">
-                    {a.title}
-                  </Link>
-                  <p className="text-gray-500 text-xs">{new Date(a.date).toLocaleDateString()}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+       {/* Sidebar */}
+<aside className="space-y-8">
+  {/* External Liturgical Calendar (GCatholic) */}
+  <div className="bg-white p-6 rounded shadow">
+    <h3 className="text-xl font-semibold mb-3">Liturgical Calendar</h3>
+    <p className="text-sm text-gray-700 mb-4">
+      For the full Nigeria (2025) liturgical calendar with feasts, memorials, and Sundays,
+      please use the official resource below.
+    </p>
+    <Link
+      href="https://gcatholic.org/calendar/2025/NG-en"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center justify-center rounded-md bg-[#800000] px-4 py-2 text-white font-medium hover:opacity-90"
+      aria-label="Open Nigeria (2025) - Liturgical Calendar on GCatholic in a new tab"
+    >
+      View Nigeria (2025) Calendar ↗
+    </Link>
+    <p className="mt-3 text-xs text-gray-500">
+      Source: GCatholic.org
+    </p>
+  </div>
 
-          {/* Downloads */}
-          <div className="bg-white p-6 rounded shadow">
-  <h3 className="text-xl font-semibold mb-4 ">Diocesan Calender</h3>
-  <ul className="text-sm space-y-2 text-gray-700">
-    <li>📍 St. Mary’s Cathedral – Sept 21, 2025</li>
-    <li>📍 Holy Trinity Parish – Oct 5, 2025</li>
-    <li>📍 St. Joseph’s Mission – Oct 19, 2025</li>
-    <li>📍 Our Lady of Fatima – Nov 2, 2025</li>
-  </ul>
-</div>
-<div className="bg-white p-6 rounded shadow">
-  <h3 className="text-xl font-semibold mb-4">Cathedraticum 2025</h3>
-  <ul className="text-sm space-y-2 text-gray-700">
-    <li>📍 Katsina Deanery – Mar 2, 2025</li>
-    <li>📍 Daura Deanery – Mar 9, 2025</li>
-    <li>📍 Malumfashi Deanery – Mar 16, 2025</li>
-    <li>📍 Funtua Deanery – Mar 23, 2025</li>
-  </ul>
-</div>
-        </aside>
+  {/* Highlights */}
+  <div className="bg-white p-6 rounded shadow">
+    <h3 className="text-xl font-semibold mb-4">Upcoming Highlights</h3>
+    <ul className="space-y-3 text-sm">
+      {announcements.map((a) => (
+        <li key={a.slug}>
+          <Link href={`/announcement/${a.slug}`} className="text-red-700 hover:underline">
+            {a.title}
+          </Link>
+          <p className="text-gray-500 text-xs">
+            {new Date(a.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {/* Deanery/Diocesan schedules (static examples) */}
+  {/* <div className="bg-white p-6 rounded shadow">
+    <h3 className="text-xl font-semibold mb-4">Diocesan Calendar (Highlights)</h3>
+    <ul className="text-sm space-y-2 text-gray-700">
+      <li>📍 St. Mary’s Cathedral – Sept 21, 2025</li>
+      <li>📍 Holy Trinity Parish – Oct 5, 2025</li>
+      <li>📍 St. Joseph’s Mission – Oct 19, 2025</li>
+      <li>📍 Our Lady of Fatima – Nov 2, 2025</li>
+    </ul>
+  </div>
+
+  <div className="bg-white p-6 rounded shadow">
+    <h3 className="text-xl font-semibold mb-4">Cathedraticum 2025</h3>
+    <ul className="text-sm space-y-2 text-gray-700">
+      <li>📍 Katsina Deanery – Mar 2, 2025</li>
+      <li>📍 Daura Deanery – Mar 9, 2025</li>
+      <li>📍 Malumfashi Deanery – Mar 16, 2025</li>
+      <li>📍 Funtua Deanery – Mar 23, 2025</li>
+    </ul>
+  </div> */}
+</aside>
+
       </div>
     </main>
   );

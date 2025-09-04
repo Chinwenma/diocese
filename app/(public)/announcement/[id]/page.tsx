@@ -63,7 +63,7 @@ export default async function AnnouncementDetailPage({ params }: Props) {
           />
         </div>
 
-        <div className="prose prose-slate max-w-none">
+        <div className="[overflow-wrap:anywhere] [word-break:break-word] hyphens-auto">
           <p>{item.details}</p>
         </div>
       </div>
