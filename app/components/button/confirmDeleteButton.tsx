@@ -45,8 +45,10 @@ export default function ConfirmDelete({
         case 'event':
           await deleteEvent(id)
           break;
+          
         case 'slider':
           await deleteSlider(id)
+
           break;
         default:
           break;
