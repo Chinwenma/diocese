@@ -45,7 +45,7 @@ export default async function ClergyDirectory({
   return (
     <main>
       <PageBanner
-      title="Priests, Chaplains, and Offices; Catholic Diocese of Katsina"
+      title="Priests, and Offices; Catholic Diocese of Katsina"
 subtitle="A complete directory of clergy and pastoral leadership"
       />
     <section className="bg-white px-4 py-12">
@@ -65,7 +65,7 @@ subtitle="A complete directory of clergy and pastoral leadership"
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700"
+            className="px-4 py-2 bg-amber-600 text-white rounded hover:opacity-90 transition cursor-pointer"
           >
             Search
           </button>

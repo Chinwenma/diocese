@@ -16,12 +16,12 @@ export default async function UpcomingAnnouncementsSection() {
       <div className="max-w-6xl mx-auto">
         <SectionHeading
           title="  Upcoming Diocesan Events"
-          subtitle="lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          subtitle="Stay updated on upcoming liturgies, celebrations, and community activities within our diocese"
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {announcements.length === 0 ?
-            <div className="bg-gray-50 rounded-lg shadow hover:shadow-md transition overflow-hidden mx-auto">
+            <div className="bg-gray-50 rounded-lg shadow hover:shadow-md transition overflow-hidden mx-auto lg:col-span-3 w-full max-w-xl text-center">
               <div className="p-6">
                 <h3 className="text-lg font-medium mb-2">No events</h3>
                 <p className="text-gray-600">There are no events at the moment.</p>

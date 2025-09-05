@@ -14,18 +14,17 @@ interface NavItem {
 }
 
 const navLinks: NavItem[] = [
-  // { id: 1, label: "Home", href: "/" },
-  { id: 1, label: "About", href: "/about" },
-  { id: 2, label: "Bishop", href: "/bishop" },
+  { id: 1, label: "Home", href: "/" },
+  { id: 2, label: "About", href: "/about" },
+  // { id: 3, label: "Bishop", href: "/bishop" },
   { id: 3, label: "Clergy", href: "/clergy" },
   { id: 4, label: "Societies", href: "/people" },
   { id: 5, label: "Catechetical", href: "/catechetical" },
   { id: 6, label: "Blog", href: "/blog" },
-  { id: 7, label: "Gallery", href: "/gallery" },
-  { id: 8, label: "Events", href: "/event" },
-  { id: 9, label: "Contact", href: "/contact" },
-
-  // { id: 10, label: "Announcements", href: "/announcement" },
+  { id: 7, label: "Events", href: "/event" },
+  { id: 8, label: "Announcements", href: "/announcement" },
+  { id: 9, label: "Gallery", href: "/gallery" },
+  { id: 10, label: "Contact", href: "/contact" },
 ];
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -57,7 +56,7 @@ const Navbar = () => {
         </Link>
 
         <h1
-          className={`${cinzel.className} font-semibold text-base sm:text-sm md:text-4xl lg:text-5xl leading-snug text-center flex-1 px-2 truncate`}
+          className={`${cinzel.className} font-semibold text-base sm:text-sm md:text-4xl lg:text-5xl text-center flex-1 px-2`}
           title="Catholic Diocese of Katsina"
         >
           Catholic Diocese of Katsina
@@ -67,19 +66,22 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4 md:text-lg">
           <Link
             href="https://www.facebook.com/share/1649DPp6zj/"
-            aria-label="Facebook" target="_blank"
+            aria-label="Facebook"
+            target="_blank"
           >
             <FaFacebookF />
           </Link>
           <Link
             href="https://www.instagram.com/cathdiokatcom?igsh=aGtmNzZpZmd5Ynln"
-            aria-label="Instagram" target="_blank"
+            aria-label="Instagram"
+            target="_blank"
           >
             <FaInstagram />
           </Link>
           <Link
             href="https://www.youtube.com/@katsinacatholicdiocese?si=YWujbpQeJGRAAKn4"
-            aria-label="YouTube" target="_blank"
+            aria-label="YouTube"
+            target="_blank"
           >
             <FaYoutube />
           </Link>

@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { team } from "@/lib/team";
@@ -11,24 +10,24 @@ export default function TeamSection() {
         {team.map((member, index) => (
           <motion.div
             key={member.id}
-            className="w-[90%] sm:w-[45%] lg:w-[22%] flex flex-col items-center text-center p-4 hover:shadow-md rounded-lg transition bg-gray-50"
+            className=" group w-[90%] sm:w-[45%] lg:w-[30%] flex flex-col items-center text-center p-4 hover:shadow-md rounded-lg transition-all duration-300 bg-gray-50 cursor-pointer hover:bg-[#800000] hover:text-white hover:scale-105"
             initial={{ opacity: 0, scale: 0.9, y: 40 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <div className="relative w-32 h-32 mb-4">
+            <div className="relative w-40 h-40 mb-4">
               <Image
-                src={member.image}
+                src={member.image || "/assets/default.jpg"}
                 alt={member.name}
                 fill
-                className="rounded-full object-cover border-2 border-red-700"
+                className="rounded-full object-cover object-top border-2 border-red-700 group-hover:border-yellow-400"
               />
             </div>
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold text-gray-800 group-hover:text-white">
               {member.name}
             </h3>
-            <p className="text-sm text-gray-600">{member.role}</p>
+            <p className="text-sm text-gray-600 group-hover:text-white">{member.role}</p>
           </motion.div>
         ))}
       </div>

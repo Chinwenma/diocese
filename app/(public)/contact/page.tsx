@@ -58,11 +58,11 @@ export default function Page() {
             </h2>
             <div className="flex items-start gap-4">
               <FaMapMarkerAlt className="text-[#DAA520] mt-1" />
-              <p>St. Martin De Porres Catholic Cathedral Church</p>{" "}
+              <p>Nagogo Road, Opposite NITEL Exchange GRA</p>{" "}
             </div>
             <div className="flex items-start gap-4">
               <FaMapMarkerAlt className="text-[#DAA520] mt-1" />
-              <p>Katsina, Katsina State, Nigeria</p>{" "}
+              <p>P.O. BOX 55, Katsina State, Nigeria</p>{" "}
             </div>
             <div className="flex items-start gap-4">
               <FaPhone className="text-[#DAA520] mt-1" />

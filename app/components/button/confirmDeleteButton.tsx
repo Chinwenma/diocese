@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { deleteAnnouncement, deleteBlog, deleteClergy, deleteHomily } from "@/app/dashboard/actions/delete";
+import { deleteAnnouncement, deleteBlog, deleteClergy, deleteEvent, deleteHomily, deleteSlider } from "@/app/dashboard/actions/delete";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -42,9 +42,13 @@ export default function ConfirmDelete({
               case 'clergy':
           await deleteClergy(id)
           break;
-
         case 'event':
-          //delete events here
+          await deleteEvent(id)
+          break;
+          
+        case 'slider':
+          await deleteSlider(id)
+
           break;
         default:
           break;

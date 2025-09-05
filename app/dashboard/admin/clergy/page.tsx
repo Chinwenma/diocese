@@ -1,3 +1,4 @@
+import ConfirmDelete from "@/app/components/button/confirmDeleteButton";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
@@ -63,12 +64,16 @@ export default async function ClergyPage() {
                     >
                       Edit
                     </Link>
-                    <Link
-                      href={`/dashboard/admin/clergy/${c.id}/delete`}
-                      className="text-red-700 hover:underline"
-                    >
-                      Delete
-                    </Link>
+
+                    <div>
+                      <ConfirmDelete
+                        title="Delete Priest"
+                        message={`This will permanently delete “${c.name}”.`}
+                        busyText="Deleting..."
+                        id={c.id}
+                        module="clergy"
+                      />
+                    </div>
                   </td>
                 </tr>
               ))

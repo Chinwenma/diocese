@@ -6,9 +6,9 @@ import { piousOrganizations } from '@/lib/organ';
 
 export default function PiousOrganizationsSection() {
   return (
-    <section className="py-16 px-4">
+    <section className="py-10 px-4">
       <div className="max-w-6xl mx-auto text-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-8">
           {piousOrganizations.map((org, i) => (
             <motion.div
               key={org.id}
@@ -24,7 +24,7 @@ export default function PiousOrganizationsSection() {
                   src={org.image}
                   alt={org.title}
                   fill
-                  className="object-cover rounded-t-lg"
+                  className="object-cover rounded-t-lg object-top"
                   quality={90}
                   loading="lazy"
                   decoding="async"

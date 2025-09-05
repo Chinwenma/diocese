@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import AnimatedButton from "../button/Button";
+import { cormorant } from "@/font";
 
 const BishopSection = () => {
   return (
@@ -12,10 +13,9 @@ const BishopSection = () => {
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-2xl md:text-5xl text-center font-bold mb-4">
+          <h2 className={`${cormorant.className} text-3xl md:5xl lg:text-6xl text-center font-extrabold mb-4`}>
             Welcome Address
           </h2>
           <p className="mb-6 text-justify leading-relaxed">
@@ -34,19 +34,17 @@ const BishopSection = () => {
           </div>
         </motion.div>
 
-        {/* Image Section with Animation */}
         <motion.div
-          className="relative w-full h-64 md:h-[400px]"
+          className="relative w-full h-64 md:h-[500px]"
           initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          viewport={{ once: true }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
           <Image
             src="/assets/bishop.png"
             alt="Bishop Image"
             fill
-            className="object-scale-down"
+            className=" object-scale-down"
             priority
           />
         </motion.div>

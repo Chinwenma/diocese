@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ButtonLink from "../../components/button/Button";
+import { cormorant } from "@/font";
 
 const counters = [
   { label: "CATHOLICS", value: 19000, suffix: "k", display: 19 },
@@ -66,7 +67,7 @@ const HistorySection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className={`${cormorant.className} text-3xl md:text-4xl font-bold mb-4`}>
               A BRIEF HISTORY OF THE DIOCESE.
             </h2>
             <p className="text-gray-700 mb-4 text-justify leading-relaxed">
