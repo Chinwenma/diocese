@@ -2,9 +2,13 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
+import ConfirmDelete from "@/app/components/button/confirmDeleteButton";
 
-
-export default async function EventsPage({ searchParams }: { searchParams: Promise<{ search?: string; page?: string }> }) {
+export default async function EventsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string; page?: string }>;
+}) {
   const params = await searchParams;
   const search = params?.search || "";
   const page = Number(params?.page) || 1;
@@ -12,11 +16,11 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
 
   const where: Prisma.EventWhereInput = search
     ? {
-      title: {
-        contains: search,
-        mode: "insensitive" as Prisma.QueryMode,
-      },
-    }
+        title: {
+          contains: search,
+          mode: "insensitive" as Prisma.QueryMode,
+        },
+      }
     : {};
 
   const [events, totalEvents] = await Promise.all([
@@ -34,7 +38,6 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
   if (page < 1 || (page > totalPages && totalEvents > 0)) {
     redirect("/dashboard/admin/events");
   }
-
 
   return (
     <div className="p-6">
@@ -86,7 +89,9 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
             events.map((ev) => (
               <tr key={ev.id} className="border-t">
                 <td className="p-2">{ev.title}</td>
-                <td className="p-2">{new Date(ev.date).toLocaleDateString()}</td>
+                <td className="p-2">
+                  {new Date(ev.date).toLocaleDateString()}
+                </td>
                 <td className="p-2">{ev.excerpt}</td>
                 <td className="p-2 flex gap-3">
                   <Link
@@ -101,6 +106,15 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
                   >
                     Edit
                   </Link>
+                  <div>
+                    <ConfirmDelete
+                      title="Delete announcement"
+                      message={`This will permanently delete “${ev.title}”.`}
+                      busyText="Deleting..."
+                      id={ev.id}
+                      module="event"
+                    />
+                  </div>
                 </td>
               </tr>
             ))
@@ -124,10 +138,11 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
                   ...(page > 1 && { page: page - 1 }),
                 },
               }}
-              className={`px-4 py-2 rounded-lg ${page === 1
+              className={`px-4 py-2 rounded-lg ${
+                page === 1
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                   : "bg-[#D6A739] text-white"
-                }`}
+              }`}
             >
               Previous
             </Link>
@@ -139,10 +154,11 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
                   ...(page < totalPages && { page: page + 1 }),
                 },
               }}
-              className={`px-4 py-2 rounded-lg ${page === totalPages
+              className={`px-4 py-2 rounded-lg ${
+                page === totalPages
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                   : "bg-[#D6A739] text-white"
-                }`}
+              }`}
             >
               Next
             </Link>

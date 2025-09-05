@@ -18,8 +18,19 @@ export default async function LatestEvents() {
         />
       </div>
 
-      <div className="mt-8">
-        <EventGrid items={events} />
+       <div className="mt-8">
+        {events.length === 0 ? (
+          <div className="bg-gray-50 rounded-lg shadow hover:shadow-md transition overflow-hidden mx-auto lg:col-span-3 w-full max-w-xl text-center">
+            <div className="p-6">
+              <h3 className="text-lg font-medium mb-2">No events</h3>
+              <p className="text-gray-600">
+                There are no diocesan events at the moment.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <EventGrid items={events} />
+        )}
       </div>
 
       <div className="mt-8 text-center">
