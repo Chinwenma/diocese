@@ -6,6 +6,7 @@ import DeaneriesSection from "./Parishes";
 import PoliciesSection from "./PoliciesSection";
 import AboutBishopPreview from "./AboutBishop";
 import CoatOfArmsSection from "./CoatOfArm";
+import { cinzel } from "@/font";
 
 // const ministries = [
 //   {
@@ -34,6 +35,13 @@ export default function page() {
       />
       <HistorySection />
       <AboutBishopPreview />
+       <section className="py-16 px-4 max-w-6xl mx-auto text-justify">
+        <h2 className={`${cinzel.className} text-3xl font-bold text-center mb-6`}>Mission Statement</h2>
+        <p className="text-gray-800 leading-relaxed text-center max-w-4xl mx-auto">
+         Our mission is to proclaim the Gospel of Christ, nurture spiritual growth through worship, teaching, and fellowship, and serve as a compassionate presence in our community, fostering hope and transformation through God’s grace.
+
+        </p>
+      </section>
       <CoatOfArmsSection />
       <DeaneriesSection />
       <PoliciesSection />

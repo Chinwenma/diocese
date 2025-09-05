@@ -51,11 +51,11 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
           name="search"
           defaultValue={search}
           placeholder="Search events..."
-          className="w-full max-w-md rounded-md border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full max-w-md rounded-md border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D6A739] focus:border-transparent cursor-pointer" 
         />
         <button
           type="submit"
-          className="rounded-md bg-[#D6A739] px-4 py-2 text-white hover:bg-blue-700"
+          className="rounded-md bg-[#D6A739] px-4 py-2 text-white hover:opacity-90"
         >
           Search
         </button>
@@ -76,7 +76,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
             className={`px-4 py-2 rounded-md ${
               page === 1
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-[#D6A739] text-white hover:bg-blue-700"
+                : "bg-[#D6A739] text-white hover:opacity-90"
             }`}
             aria-disabled={page === 1}
           >

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React from 'react';
 
 export default function PoliciesSection() {
@@ -32,13 +33,14 @@ export default function PoliciesSection() {
               Our safeguarding measures are designed to protect children from any form of abuse,
               harm, or neglect, in full compliance with Church and civil laws.
             </p>
-            <a
+            <Link
               href="/docs/child-protection-policy.pdf"
               target="_blank"
-              className="text-blue-700 hover:underline"
+              className="text-emerald-700 hover:underline text-sm"
             >
               Read More →
-            </a>
+            </Link>
+            
           </div>
 
           {/* Code of Conduct */}
@@ -50,13 +52,13 @@ export default function PoliciesSection() {
               Our clergy, catechists, and volunteers adhere to a clear code of ethics and conduct
               that reflects the dignity of the human person and the mission of the Church.
             </p>
-            <a
+            <Link
               href="/docs/code-of-conduct.pdf"
               target="_blank"
-              className="text-blue-700 hover:underline"
+              className="text-emerald-700 hover:underline text-sm"
             >
               Read More →
-            </a>
+            </Link>
           </div>
 
           {/* Safe Ministry */}
@@ -68,13 +70,13 @@ export default function PoliciesSection() {
               We implement safe ministry practices to ensure that our faith activities
               promote respect, responsibility, and the well-being of all participants.
             </p>
-            <a
+            <Link
               href="/docs/safe-ministry-guidelines.pdf"
               target="_blank"
-              className="text-blue-700 hover:underline"
+              className="text-emerald-700 hover:underline text-sm"
             >
               Read More →
-            </a>
+            </Link>
           </div>
         </div>
       </div>
