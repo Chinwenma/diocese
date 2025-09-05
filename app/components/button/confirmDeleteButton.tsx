@@ -1,7 +1,6 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { deleteAnnouncement, deleteBlog, deleteClergy, deleteEvent, deleteHomily } from "@/app/dashboard/actions/delete";
-import { a } from "framer-motion/client";
 import { useState } from "react";
 import { toast } from "react-toastify";
 

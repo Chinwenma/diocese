@@ -14,7 +14,7 @@ export default async function LatestEvents() {
       <div className="text-center space-y-4">
         <SectionHeading
           title="Latest Diocesan Events"
-          subtitle="lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          subtitle="Join us in celebrating faith and community through events that inspire, connect, and strengthen our diocesan family"
         />
       </div>
 

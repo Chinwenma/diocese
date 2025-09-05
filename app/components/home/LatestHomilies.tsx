@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ export default function LatestHomilies({
       <section className="py-16 px-4 bg-gray-100">
         <SectionHeading
           title="Latest Bishop's Reflections"
-          subtitle="lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          subtitle="Reflections rooted in the Gospel, offering wisdom and light for today’s challenges"
         />
 
         <div className="max-w-7xl mx-auto">
