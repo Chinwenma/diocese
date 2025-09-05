@@ -49,8 +49,8 @@ const authOptions: NextAuthOptions = {
       }
       return session;
     },
-      async redirect({ baseUrl }) {
-      return `${baseUrl}/dashboard`;
+      async redirect() {
+      return `${process.env.NEXTAUTH_URL}/dashboard`;
     },
   },
 //   pages: {
