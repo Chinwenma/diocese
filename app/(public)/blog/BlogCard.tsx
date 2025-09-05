@@ -30,7 +30,7 @@ const BlogCard: FC<BlogCardProps> = ({ title, excerpt, image,  id, index }) => {
         <p className="text-sm text-gray-600">{excerpt}</p>
         <Link
           href={`/blog/${id}`} 
-          className="inline-block text-red-600 font-medium text-sm hover:underline"
+          className="inline-block text-emerald-700 font-medium text-sm hover:underline"
         >
           Read More →
         </Link>

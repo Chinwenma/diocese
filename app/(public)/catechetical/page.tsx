@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import PageBanner from '../../components/banner/PageBanner';
 import SectionHeading from '@/app/components/heading/SectionHeading';
