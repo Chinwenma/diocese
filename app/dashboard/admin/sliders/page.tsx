@@ -62,43 +62,43 @@ export default async function SliderList({ searchParams }: Props) {
               </tr>
             </thead>
             <tbody>
-              {items.map((a) => (
-                <tr key={a.id} className="border-t">
+              {items.map((s) => (
+                <tr key={s.id} className="border-t">
                   <td className="px-4 py-3">
                     <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-100">
-                      {a.image ? (
+                      {s.image ? (
                         <Image
-                          src={a.image}
-                          alt={a.title}
+                          src={s.image}
+                          alt={s.title}
                           fill
                           className="object-cover"
                         />
                       ) : null}
                     </div>
                   </td>
-                  <td className="px-4 py-3 font-medium">{a.title}</td>
-                  <td className="px-4 py-3 text-slate-500">{a.subtitle}</td>
+                  <td className="px-4 py-3 font-medium">{s.title}</td>
+                  <td className="px-4 py-3 text-slate-500">{s.subtitle}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-3">
                       <Link
                         className="text-blue-700 hover:underline"
-                        href={`/dashboard/admin/sliders/${a.id}/view`}
+                        href={`/dashboard/admin/sliders/${s.id}/view`}
                       >
                         View
                       </Link>
                       <Link
                         className="text-emerald-700 hover:underline"
-                        href={`/dashboard/admin/sliders/${a.id}/edit`}
+                        href={`/dashboard/admin/sliders/${s.id}/edit`}
                       >
                         Edit
                       </Link>
                       <div>
                         <ConfirmDelete
-                          title="Delete announcement"
-                          message={`This will permanently delete “${a.title}”.`}
+                          title="Delete slider"
+                          message={`This will permanently delete “${s.title}”.`}
                           busyText="Deleting..."
-                          id={a.id}
-                          module="announcement"
+                          id={s.id}
+                          module="slider"
                         />
                       </div>
                     </div>

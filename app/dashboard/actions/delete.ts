@@ -63,10 +63,6 @@ export async function deleteClergy(id: string) {
   revalidatePath("/dashboard/admin/clergy");
 }
 
-/* =========================
-   EVENT (id OR slug accepted)
-   ========================= */
-
 export async function deleteEvent(id: string) {
   if (!id) return;
 
@@ -76,4 +72,14 @@ export async function deleteEvent(id: string) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/admin/events");
+}
+
+export async function deleteSlider(id: string) {
+  if (!id) return;
+  try {
+    await prisma.slider.delete({ where: { id } });
+  } catch (e: any) {
+    if (!isRecordNotFound(e)) throw e;
+  }
+  revalidatePath("/dashboard/admin/sliders");
 }
