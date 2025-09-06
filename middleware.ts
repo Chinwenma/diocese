@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
   if (!currentPath.startsWith("/dashboard")) return NextResponse.next();
 
   const token = await getToken({ req, secret });
-  const authUrl = new URL("/api/auth/signin", req.url);
+  const authUrl = new URL("/signin", req.url);
 
   if (!token) return NextResponse.redirect(authUrl);
 
