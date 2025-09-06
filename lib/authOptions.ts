@@ -48,13 +48,11 @@ const authOptions: NextAuthOptions = {
         session.user.role = token.role as string;
       }
       return session;
-    },
-      async redirect() {
-      return `${process.env.NEXTAUTH_URL}/dashboard`;
-    },
+    }
   },
-//   pages: {
-//     signIn: "/signin",
-//   },
+  pages: {
+    signIn: "/signin",
+    signOut: "/signout",
+  },
 };
 export default authOptions;
