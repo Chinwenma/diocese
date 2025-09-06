@@ -36,6 +36,8 @@ export async function createAnnouncement(formData: AnnouncementFormData) {
   });
   // Revalidate the announcements page to update the data
   revalidatePath("/dashboard/admin/announcements");
+  revalidatePath("/announcement");
+  revalidatePath("/");
   //I do not handle errors here because I want to handle them in the form itself
 }
 
@@ -58,6 +60,7 @@ export async function createSlider(formData: SliderFormData) {
   });
   // Revalidate the announcements page to update the data
   revalidatePath("/dashboard/admin/sliders");
+  revalidatePath("/");
   //I do not handle errors here because I want to handle them in the form itself
 }
 
@@ -78,6 +81,8 @@ export async function createBlog(formData: BlogFormData) {
   });
   // Revalidate the blog page to update the data
   revalidatePath("/dashboard/admin/blog");
+  revalidatePath("/blog");
+  revalidatePath("/");
   //I do not handle errors here because I want to handle them in the form itself
 }
 // create homily action
@@ -95,9 +100,9 @@ export async function createHomily(formData: HomilyFormData) {
       content,
     },
   });
-  // Revalidate the blog page to update the data
   revalidatePath("/dashboard/bishop/homily");
-  //I do not handle errors here because I want to handle them in the form itself
+  revalidatePath("/homily");
+  revalidatePath("/");
 }
 
 export async function createEvent(formData: FormData) {
@@ -178,5 +183,7 @@ export async function createEvent(formData: FormData) {
   }
 
   revalidatePath("/dashboard/admin/events");
+  revalidatePath("/event");
+  revalidatePath("/");
   redirect("/dashboard/admin/events");
 }

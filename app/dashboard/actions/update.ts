@@ -12,6 +12,7 @@ const imagekit = new ImageKit({
   privateKey: process.env.PRIVATE_KEY ?? "",
   urlEndpoint: process.env.NEXT_PUBLIC_URL_ENDPOINT ?? "",
 });
+
 export async function updateEvent(slugOrId: string, formData: FormData) {
   const title = String(formData.get("title") || "").trim();
   const slug = String(formData.get("slug") || "").trim();
@@ -134,6 +135,8 @@ export async function updateEvent(slugOrId: string, formData: FormData) {
   }
 
   revalidatePath("/dashboard/admin/events");
+  revalidatePath("/event");
+  revalidatePath("/");
   redirect("/dashboard/admin/events");
 }
 

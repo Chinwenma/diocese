@@ -29,6 +29,9 @@ async function updateClergy(id: string, formData: FormData) {
   });
 
   revalidatePath("/dashboard/clergy");
+  revalidatePath("/");
+  revalidatePath("/clergy");
+  revalidatePath(`/clergy/${id}`);
   redirect("/dashboard/clergy");
 }
 

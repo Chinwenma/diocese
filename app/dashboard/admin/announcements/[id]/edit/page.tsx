@@ -44,8 +44,9 @@ async function updateAnnouncementAction(oldSlug: string, formData: FormData) {
 
   // Refresh admin list and public detail
   revalidatePath("/dashboard/admin/announcements");
-  revalidatePath(`/announcements/${slug}`);
-
+  revalidatePath(`/announcement/${slug}`);
+  revalidatePath("/announcement");
+  revalidatePath("/");
   redirect("/dashboard/admin/announcements");
 }
 
@@ -53,6 +54,8 @@ async function deleteAnnouncementAction(slug: string) {
   "use server";
   await prisma.announcement.delete({ where: { slug } });
   revalidatePath("/dashboard/announcements");
+  revalidatePath("/announcement");
+  revalidatePath("/");
   redirect("/dashboard/announcements");
 }
 

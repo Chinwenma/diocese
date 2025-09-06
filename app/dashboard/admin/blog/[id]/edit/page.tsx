@@ -44,7 +44,8 @@ async function updateBlogAction(oldSlug: string, formData: FormData) {
   // Refresh admin list and public detail
   revalidatePath("/dashboard/blog");
   revalidatePath(`/blog/${slug}`);
-
+  revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/dashboard/blog");
 }
 
@@ -52,6 +53,8 @@ async function deleteBlogAction(slug: string) {
   "use server";
   await prisma.blog.delete({ where: { slug } });
   revalidatePath("/dashboard/blog");
+  revalidatePath("/blog");
+  revalidatePath("/");
   redirect("/dashboard/blog");
 }
 
