@@ -32,7 +32,7 @@ export default async function BlogPage({
     where,
     skip,
     take: ITEMS_PER_PAGE,
-    orderBy: { date: "asc" },
+    orderBy: { createdAt: "desc" },
   });
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 

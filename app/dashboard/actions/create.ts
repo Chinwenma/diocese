@@ -21,24 +21,20 @@ const imagekit = new ImageKit({
  * @returns Promise<void>
  */
 export async function createAnnouncement(formData: AnnouncementFormData) {
-  // Destructure the required fields from the form data
   const { title, slug, date, image, description, details } = formData;
-  // Create a new announcement record in the database
   await prisma.announcement.create({
     data: {
       title,
       slug,
-      date: new Date(date), // Convert the date string to a Date object
+      date: new Date(date),
       image,
       description,
       details,
     },
   });
-  // Revalidate the announcements page to update the data
   revalidatePath("/dashboard/admin/announcements");
   revalidatePath("/announcement");
   revalidatePath("/");
-  //I do not handle errors here because I want to handle them in the form itself
 }
 
 /**
@@ -64,37 +60,30 @@ export async function createSlider(formData: SliderFormData) {
   //I do not handle errors here because I want to handle them in the form itself
 }
 
-// create blog action
 export async function createBlog(formData: BlogFormData) {
-  // Destructure the required fields from the form data
   const { title, slug, date, image, excerpt, content } = formData;
-  // Create a new blog record in the database
   await prisma.blog.create({
     data: {
       title,
       slug,
-      date: new Date(date), // Convert the date string to a Date object
+      date: new Date(date),
       image,
       excerpt,
       content,
     },
   });
-  // Revalidate the blog page to update the data
   revalidatePath("/dashboard/admin/blog");
   revalidatePath("/blog");
   revalidatePath("/");
-  //I do not handle errors here because I want to handle them in the form itself
 }
-// create homily action
+
 export async function createHomily(formData: HomilyFormData) {
-  // Destructure the required fields from the form data
   const { title, slug, date, image, summary, content } = formData;
-  // Create a new blog record in the database
   await prisma.homily.create({
     data: {
       title,
       slug,
-      date: new Date(date), // Convert the date string to a Date object
+      date: new Date(date),
       image,
       summary,
       content,
