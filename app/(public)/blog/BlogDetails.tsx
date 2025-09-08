@@ -33,7 +33,7 @@ export default function BlogDetails({ blog }: { blog: Blog }) {
       <p className="text-sm text-gray-500 mb-6">{blog.date.toDateString()}</p>
 
       {/* Blog Content */}
-      <div className="prose prose-lg text-gray-700 leading-relaxed max-w-none">
+      <div className="prose prose-lg text-gray-700 leading-relaxed max-w-lg text-wrap">
         {blog.content}
       </div>
     </article>

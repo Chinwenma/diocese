@@ -54,10 +54,10 @@ export default function NewHomilyPage() {
     if (!formData.title.trim()) newErrors.title = "Title is required";
     // Validate slug field - check if it's empty after trimming whitespace
     if (!formData.slug.trim()) newErrors.slug = "Slug is required";
-    // Validate details field - check if it's empty after trimming whitespace
-    if (!formData.content.trim()) newErrors.content = "Details are required";
     // Validate description field - check if it's empty after trimming whitespace
     if (!formData.summary.trim()) newErrors.summary = "Description is required";
+    // Validate details field - check if it's empty after trimming whitespace
+    if (!formData.content.trim()) newErrors.content = "Details are required";
     // Return the validation errors object
     return newErrors;
   };
@@ -76,6 +76,8 @@ export default function NewHomilyPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData);
+
     const formErrors = validateForm();
     //This is form validation to ensure the expected data goes to the server
     if (Object.keys(formErrors).length > 0) {
@@ -138,9 +140,8 @@ export default function NewHomilyPage() {
             value={formData.title}
             onChange={handleChange}
             required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.title ? "border-red-500" : ""
-            }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.title ? "border-red-500" : ""
+              }`}
           />
           {errors.title && (
             <span className="text-red-500 text-sm">{errors.title}</span>
@@ -155,9 +156,8 @@ export default function NewHomilyPage() {
             onChange={handleChange}
             required
             placeholder="ordination-rev-john-doe"
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.slug ? "border-red-500" : ""
-            }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.slug ? "border-red-500" : ""
+              }`}
           />
           {errors.slug && (
             <span className="text-red-500 text-sm">{errors.slug}</span>
@@ -172,9 +172,8 @@ export default function NewHomilyPage() {
             value={formData.date}
             onChange={handleChange}
             required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.date ? "border-red-500" : ""
-            }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.date ? "border-red-500" : ""
+              }`}
           />
           {errors.date && (
             <span className="text-red-500 text-sm">{errors.date}</span>
@@ -227,6 +226,8 @@ export default function NewHomilyPage() {
           <label className="block text-sm font-medium">Details</label>
           <textarea
             name="content"
+            onChange={handleChange}
+            value={formData.content}
             rows={8}
             className="mt-1 w-full rounded-lg border px-3 py-2"
           />
