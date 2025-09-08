@@ -58,7 +58,6 @@ export default async function EditSliderPage({ params }: Props) {
               type="file"
               accept="image/*"
               className="w-full border rounded p-2 mt-1"
-              required
             />
           </div>
 

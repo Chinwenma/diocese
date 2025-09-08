@@ -19,6 +19,8 @@ export async function deleteAnnouncement(id: string) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/admin/announcements");
+    revalidatePath("/announcement");
+    revalidatePath("/");
 }
 
 /* ================
