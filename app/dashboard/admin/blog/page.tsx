@@ -47,9 +47,9 @@ export default async function BlogList({ params }: Props) {
     <div className="p-6">
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight">Reflections </h2>
+          <h2 className="text-xl font-semibold tracking-tight">News</h2>
           <p className="text-sm text-slate-500">
-            Create, edit and manage Reflections.
+            Create, edit and manage News Artcles, newsletters .
           </p>
         </div>
 

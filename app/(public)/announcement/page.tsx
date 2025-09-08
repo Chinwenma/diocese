@@ -14,12 +14,13 @@ export default async function AnnouncementsPage() {
         <div className="lg:col-span-2 space-y-10">
           {announcements.map((announcement) => (
             <div key={announcement.slug} className="bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden">
-              <div className="relative w-full h-56">
+              <div className="relative w-full h-64 md:h-80 lg:h-96">
                 <Image
                   src={announcement.image}
                   alt={announcement.title}
                   fill
-                  className="object-cover"
+                  className="object-cover object-center"
+                  loading='lazy'
                 />
               </div>
               <div className="p-6">
@@ -88,26 +89,7 @@ export default async function AnnouncementsPage() {
     </ul>
   </div>
 
-  {/* Deanery/Diocesan schedules (static examples) */}
-  {/* <div className="bg-white p-6 rounded shadow">
-    <h3 className="text-xl font-semibold mb-4">Diocesan Calendar (Highlights)</h3>
-    <ul className="text-sm space-y-2 text-gray-700">
-      <li>📍 St. Mary’s Cathedral – Sept 21, 2025</li>
-      <li>📍 Holy Trinity Parish – Oct 5, 2025</li>
-      <li>📍 St. Joseph’s Mission – Oct 19, 2025</li>
-      <li>📍 Our Lady of Fatima – Nov 2, 2025</li>
-    </ul>
-  </div>
 
-  <div className="bg-white p-6 rounded shadow">
-    <h3 className="text-xl font-semibold mb-4">Cathedraticum 2025</h3>
-    <ul className="text-sm space-y-2 text-gray-700">
-      <li>📍 Katsina Deanery – Mar 2, 2025</li>
-      <li>📍 Daura Deanery – Mar 9, 2025</li>
-      <li>📍 Malumfashi Deanery – Mar 16, 2025</li>
-      <li>📍 Funtua Deanery – Mar 23, 2025</li>
-    </ul>
-  </div> */}
 </aside>
 
       </div>
