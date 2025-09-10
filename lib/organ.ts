@@ -10,7 +10,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 1,
     title: "Catholic Men Organisation (CMO)",
-    image: "/assets/pic13.jpg",
+    image: "/assets/CMO LOGO.jpg",
     description:
       "Men of faith dedicated to leadership, service, and the spiritual development of the family and parish.",
     chaplain: "Fr. Ajiboh Festus",
@@ -18,7 +18,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 2,
     title: "Catholic Women Organisation (CWO) / Zumuntar Mata",
-    image: "/assets/pic14.jpg",
+    image: "/assets/CWO LOGO.jpg",
     description:
       "A vibrant group of Catholic women committed to spiritual growth, family life, and community service.",
     chaplain: "Fr. Kelvin Obineche / Fr. Reuben Amodu",
@@ -26,7 +26,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 3,
     title: "Catholic Youth Organisation of Nigeria (CYON) / NACC",
-    image: "/assets/pic16.jpg",
+    image: "/assets/WhatsApp Image 2025-09-07 at 11.16.24_62da7da3.jpg",
     description:
       "Dynamic youth fostering Christian values through evangelization, community, and peer mentorship.",
     chaplain: "Fr. Lemark Peter",
@@ -34,7 +34,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 4,
     title: "Biblical Apostolate (CBIU)",
-    image: "/assets/pic17.jpg",
+    image: "/assets/CBIU.jpeg",
     description:
       "A lay apostolic association focused on promoting Scripture study, evangelization, and deepening faith.",
     chaplain: "Fr. Casmir Obi",
@@ -42,7 +42,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 5,
     title: "Choir",
-    image: "/assets/pic11.jpg",
+    image: "/assets/choir.png",
     description:
       "A dedicated group that enriches liturgy and worship through sacred music and singing.",
     chaplain: "Fr. Chibi Samaila",
@@ -66,7 +66,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 8,
     title: "Knights",
-    image: "/assets/pic22.jpg",
+    image: "/assets/nit.jpg",
     description:
       "Catholic knights committed to charity, unity, fraternity, and defense of the Church.",
     chaplain: "Fr. Barde",
@@ -74,7 +74,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 9,
     title: "Charismatic / Holy Name",
-    image: "/assets/pic23.jpg",
+    image: "/assets/ccrn.jpeg",
     description:
       "A renewal movement promoting prayer, praise, healing, and devotion to the Holy Name of Jesus.",
     chaplain: "Fr. Bahywa John",
@@ -82,7 +82,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 10,
     title: "NFCS / YCS",
-    image: "/assets/pic30.jpg",
+    image: "/assets/nfcs.jpeg",
     description:
       "National Federation of Catholic Students and Young Catholic Students committed to academic, social, and spiritual growth.",
     chaplain: "Fr. Ajiboh Festus",
@@ -90,7 +90,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 11,
     title: "Marian Devotees / Block Rosary",
-    image: "/assets/pic23.jpg",
+    image: "/assets/blockk.jpeg",
     description:
       "A prayer group dedicated to Marian devotion through the daily recitation of the Rosary.",
     chaplain: "Fr. Bakoshi Mathais",
@@ -98,7 +98,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 12,
     title: "St. Vincent De Paul",
-    image: "/assets/pic7.jpg",
+    image: "/assets/ST VINCENT.jpg",
     description:
       "Lay Catholics serving the poor, sick, and marginalized through charity and works of mercy.",
     chaplain: "Fr. Ochekwu John",
@@ -106,15 +106,15 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 13,
     title: "Holy Childhood Association (HCA)",
-    image: "/assets/pic20.jpg",
+    image: "/assets/HCA.png",
     description:
       "Children helping children in mission through prayer, sacrifice, and small works of charity.",
     chaplain: "Fr. Abubakar Musa",
   },
   {
     id: 14,
-    title: "Altar Night",
-    image: "/assets/pic19.jpg",
+    title: "Altar Knight",
+    image: "/assets/altar.jpeg",
     description:
       "An association of altar servers dedicated to assisting at Mass and fostering devotion to the Eucharist.",
     chaplain: "Fr. Izuala John",
@@ -122,7 +122,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 15,
     title: "Catholic Cadet",
-    image: "/assets/pic10.jpg",
+    image: "/assets/cadet.jpeg",
     description:
       "Young Catholics instilled with discipline, service, and leadership in the spirit of faith.",
     chaplain: "Fr. Shidi Stephen",
@@ -130,7 +130,7 @@ export const piousOrganizations: PiousOrganization[] = [
   {
     id: 16,
     title: "Sacred Heart / Divine Mercy / Precious Blood",
-    image: "/assets/heart.jpeg",
+    image: "/assets/SACRED HEART OF JESUS.jpg",
     description:
       "Members promote devotion to the Sacred Heart of Jesus, Divine Mercy, and the Precious Blood through prayer and service.",
     chaplain: "Fr. Asheji Duniya Pius",

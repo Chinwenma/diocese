@@ -24,12 +24,13 @@ export default function PiousOrganizationsSection() {
                   src={org.image}
                   alt={org.title}
                   fill
-                  className="object-cover rounded-t-lg object-top"
+                  className="object-fill rounded-t-lg object-center "
                   quality={90}
                   loading="lazy"
                   decoding="async"
                   priority={false}
                   draggable={false}
+                  
                 />
               </div>
 
