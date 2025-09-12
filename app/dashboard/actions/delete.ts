@@ -29,18 +29,16 @@ export async function deleteAnnouncement(id: string) {
 export async function deleteBlog(id: string) {
   if (!id) return;
   try {
-    await prisma.blog.delete({ where: { id } });
+    await prisma.blog.delete({ where: { id} });
   } catch (e: any) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/admin/blog");
+  revalidatePath("/blog");
+
 }
 
-/* =========================
-   HOMILY (by slug or id)
-   - Adjust: if your schema uses id instead of slug, 
-     just change the hidden input name + where clause.
-   ========================= */
+
 export async function deleteHomily(id: string) {
   if (!id) return;
 
@@ -50,6 +48,8 @@ export async function deleteHomily(id: string) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/bishop/homily");
+  revalidatePath("/homily");
+  revalidatePath("/");
 }
 
 /* =========================
@@ -63,6 +63,7 @@ export async function deleteClergy(id: string) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/admin/clergy");
+  revalidatePath("/clergy");
 }
 
 export async function deleteEvent(id: string) {
@@ -74,6 +75,8 @@ export async function deleteEvent(id: string) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/admin/events");
+  revalidatePath("/event");
+  revalidatePath("/");
 }
 
 export async function deleteSlider(id: string) {
@@ -84,4 +87,5 @@ export async function deleteSlider(id: string) {
     if (!isRecordNotFound(e)) throw e;
   }
   revalidatePath("/dashboard/admin/sliders");
+  revalidatePath("/");
 }

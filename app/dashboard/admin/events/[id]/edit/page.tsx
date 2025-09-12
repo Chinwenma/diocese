@@ -1,3 +1,4 @@
+
 import { updateEvent } from "@/app/dashboard/actions/update";
 import prisma from "@/lib/prisma";
 import { isObjectId } from "@/lib/slugify";
@@ -60,7 +61,7 @@ export default async function EditEventPage({ params }: PageProps) {
 
         <div>
           <p className="mt-1 text-sm text-slate-500">
-            Current: <Image src={ev.cover} alt="cover" width={100} height={100} />
+            Current: <Image src={ev.cover} alt="cover" width={100} height={100} loading="lazy" />
           </p>
           <label htmlFor="cover" className="block text-sm font-medium text-slate-700">
             Cover Image
@@ -70,6 +71,8 @@ export default async function EditEventPage({ params }: PageProps) {
             name="cover"
             type="file"
             accept="image/*"
+            width={400}
+            height={300}
             className="w-full border rounded p-2 mt-1"
           />
         </div>
@@ -127,7 +130,7 @@ export default async function EditEventPage({ params }: PageProps) {
             className="w-full border rounded p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={6}
           />
-          <p className="mt-1 text-sm text-slate-500">Enter each paragraph on a new line.</p>
+         
         </div>
 
         <div className="flex gap-3">

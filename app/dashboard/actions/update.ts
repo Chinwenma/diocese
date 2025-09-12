@@ -206,21 +206,28 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
   redirect("/dashboard/admin/sliders");
 }
 
-export async function updateAnnouncementAction(oldSlug: string, formData: FormData) {
+ export async function updateAnnouncementAction(oldSlug: string, formData: FormData) {
+
+
   const title = String(formData.get("title") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim();
   const dateStr = String(formData.get("date") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const details = String(formData.get("details") ?? "").trim();
 
-  if (!title || !slug || !dateStr) {
-    throw new Error("Title, slug, and date are required.");
+    if (!title) {
+    throw new Error("Title is required.");
+  }
+  if (!slug) {
+    throw new Error("Subtitle is required.");
+  }
+  if (!dateStr) {
+    throw new Error("Text is required.");
   }
   const existingAnnouncement = await prisma.announcement.findUnique({ where: { slug } });
   if (!existingAnnouncement) {
     throw new Error("Announcement not found.");
   }
-
   let imageUrl = existingAnnouncement.image;
   const imageFile = formData.get("image");
   if (imageFile instanceof File && imageFile.size > 0) {
@@ -230,10 +237,10 @@ export async function updateAnnouncementAction(oldSlug: string, formData: FormDa
       const buffer = Buffer.from(arrayBuffer);
       const uploadResponse = await imagekit.upload({
         file: buffer,
-        fileName: `slider-image-${slug}-${Date.now()}.${imageFile.name
+        fileName: `Announcement-image-${slug}-${Date.now()}.${imageFile.name
           .split(".")
           .pop()}`,
-        folder: "/katsina/sliders/images",
+        folder: "/katsina/announcement/images",
       });
       imageUrl = uploadResponse.url;
 
@@ -252,6 +259,7 @@ export async function updateAnnouncementAction(oldSlug: string, formData: FormDa
       throw new Error(`Failed to upload image image: ${error.message}`);
     }
   }
+
   await prisma.announcement.update({
     where: { slug: oldSlug },
     data: {
@@ -264,10 +272,82 @@ export async function updateAnnouncementAction(oldSlug: string, formData: FormDa
     },
   });
 
-  // Refresh admin list and public detail
   revalidatePath("/dashboard/admin/announcements");
   revalidatePath(`/announcement/${slug}`);
   revalidatePath("/announcement");
   revalidatePath("/");
   redirect("/dashboard/admin/announcements");
 }
+ export async function updateBlogAction(oldSlug: string, formData: FormData) {
+
+
+  const title = String(formData.get("title") ?? "").trim();
+  const slug = String(formData.get("slug") ?? "").trim();
+  const dateStr = String(formData.get("date") ?? "").trim();
+  const excerpt = String(formData.get("excerpt") ?? "").trim();
+  const content = String(formData.get("content") ?? "").trim();
+
+    if (!title) {
+    throw new Error("Title is required.");
+  }
+  if (!slug) {
+    throw new Error("Subtitle is required.");
+  }
+  if (!dateStr) {
+    throw new Error("date is required.");
+  }
+  const existingBlog = await prisma.blog.findUnique({ where: { slug } });
+  if (!existingBlog) {
+    throw new Error("blog not found.");
+  }
+  let imageUrl = existingBlog.image;
+  const imageFile = formData.get("image");
+  if (imageFile instanceof File && imageFile.size > 0) {
+    try {
+      // Upload new image image
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const uploadResponse = await imagekit.upload({
+        file: buffer,
+        fileName: `Blog-image-${slug}-${Date.now()}.${imageFile.name
+          .split(".")
+          .pop()}`,
+        folder: "/katsina/blog/images",
+      });
+      imageUrl = uploadResponse.url;
+
+      // Delete old image image from ImageKit
+      if (existingBlog.image) {
+        const fileId = existingBlog.image.split("/").pop()?.split(".")[0];
+        if (fileId) {
+          try {
+            await imagekit.deleteFile(fileId);
+          } catch (error: any) {
+            console.error(`Failed to delete old image image: ${error.message}`);
+          }
+        }
+      }
+    } catch (error: any) {
+      throw new Error(`Failed to upload image image: ${error.message}`);
+    }
+  }
+
+  await prisma.blog.update({
+    where: { slug: oldSlug },
+    data: {
+      title,
+      slug,
+      date: new Date(dateStr),
+      image: imageUrl,
+      excerpt,
+      content,
+    },
+  });
+
+  revalidatePath("/dashboard/admin/blog");
+  revalidatePath(`/blog/${slug}`);
+  revalidatePath("/blog");
+  redirect("/dashboard/admin/blog");
+}
+
+

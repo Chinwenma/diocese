@@ -144,7 +144,26 @@ export default function CatecheticalCentrePage() {
           ))}
         </div>
       </Section>
-
+ <Section>
+      
+        <SectionHeading
+        title='Rules & Regulations for Students'
+        subtitle='These guidelines are designed to foster discipline, spiritual growth, and communal harmony among students'
+        />
+        <div className="grid md:grid-cols-3 gap-6 text-justify">
+          {[
+            ['🙏 Spiritual & Personal Conduct', 'Must be a Catholic with a passion for evangelization and Church service. Expected to be prayerful, attend Mass regularly, and engage in community movements. Responsible for your spiritual and academic growth—no slacking!'],
+            ['🧼 Discipline & Cleanliness', ' Respect authority, obey rules, and maintain honesty. Keep your room and surroundings clean. Participate in general labour every Saturday—no excuses!'],
+            ['🚫 Restrictions & Permissions', 'No leaving the premises without permission from the Director or Assistant. Avoid unnecessary outings and unapproved food items. No electrical gadgets, musical instruments, drugs, or reading materials without permission. Visitors allowed only on weekends, and they must be well-behaved and properly dressed.'],
+             ['📦 Responsibility', 'You are accountable for your personal belongings and the Centre’s property. Any damage? You pay for it. If you fall ill, report immediately to the Director or Assistant'],
+          ].map(([title, text]) => (
+            <Card key={title}>
+              <h4 className="font-semibold mb-2">{title}</h4>
+              <p className="text-gray-700 text-sm  [overflow-wrap:anywhere]">{text}</p>
+            </Card>
+          ))}
+        </div>
+      </Section>
       <Section>
         <SectionHeading 
         title='Ongoing Online Catechesis'/>

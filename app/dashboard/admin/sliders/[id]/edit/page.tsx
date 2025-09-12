@@ -2,18 +2,12 @@
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { notFound} from "next/navigation";
 import { updateSliderAction } from "@/app/dashboard/actions/update";
+import { deleteSlider } from "@/app/dashboard/actions/delete";
 
 type Props = { params: Promise<{ id: string }> }; // `id` is the current slug
 
-async function deleteSliderAction(id: string) {
-  "use server";
-  await prisma.slider.delete({ where: { id } });
-  revalidatePath("/dashboard/admin/sliders");
-  redirect("/dashboard/admin/sliders");
-}
 
 export default async function EditSliderPage({ params }: Props) {
   const { id } = await params;
@@ -50,7 +44,7 @@ export default async function EditSliderPage({ params }: Props) {
           </div>
 
           <div>
-            <Image src={item.image} alt={item.title} width={100} height={100} />
+            <Image src={item.image} alt={item.title} width={100} height={100} loading="lazy"/>
             <label className="block text-sm font-medium">Image</label>
             <input
               id="image"
@@ -112,7 +106,7 @@ export default async function EditSliderPage({ params }: Props) {
             </div>
           </div>
 
-          <form action={deleteSliderAction.bind(null, id)}>
+          <form action={deleteSlider.bind(null, id)}>
             <button
               type="submit"
               className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-red-700 hover:bg-red-100"
