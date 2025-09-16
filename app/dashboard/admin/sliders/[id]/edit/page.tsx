@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound} from "next/navigation";
 import { updateSliderAction } from "@/app/dashboard/actions/update";
-import { deleteSlider } from "@/app/dashboard/actions/delete";
 
 type Props = { params: Promise<{ id: string }> }; // `id` is the current slug
 
@@ -105,15 +104,6 @@ export default async function EditSliderPage({ params }: Props) {
               )}
             </div>
           </div>
-
-          <form action={deleteSlider.bind(null, id)}>
-            <button
-              type="submit"
-              className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-red-700 hover:bg-red-100"
-            >
-              Delete slider
-            </button>
-          </form>
         </div>
       </div>
     </div>

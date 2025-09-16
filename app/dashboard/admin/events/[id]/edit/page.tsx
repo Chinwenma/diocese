@@ -78,7 +78,7 @@ export default async function EditEventPage({ params }: PageProps) {
         </div>
 
         <div>
-          <p className="mt-1 text-sm text-slate-500">
+          <div className="mt-1 text-sm text-slate-500">
             Current: {ev.images.length > 0 ? (
               <div className="flex flex-wrap gap-3 ">
                 {ev.images.map((img, index) => (
@@ -89,7 +89,7 @@ export default async function EditEventPage({ params }: PageProps) {
             ) : (
               "None"
             )}
-          </p>
+          </div>
           <label htmlFor="images" className="block text-sm font-medium text-slate-700">
             Additional Images
           </label>
@@ -99,9 +99,11 @@ export default async function EditEventPage({ params }: PageProps) {
             type="file"
             accept="image/*"
             multiple
+            width={400}
+            height={300}
             className="w-full border rounded p-2 mt-1"
           />
-          <p className="mt-1 text-sm text-slate-500">Select new images to replace existing ones.</p>
+        
         </div>
 
         <div>

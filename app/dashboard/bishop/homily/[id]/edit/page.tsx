@@ -1,63 +1,21 @@
+
+import { updateHomilyAction } from "@/app/dashboard/actions/update";
 import prisma from "@/lib/prisma";
+import { isObjectId } from "@/lib/slugify";
 import Image from "next/image";
+
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ id: string }> }; 
 
-function normalizeImage(input: string | null | undefined) {
-  if (!input) return undefined;
-  const s = String(input).trim();
-  if (!s) return undefined;
-  if (s.startsWith("/")) return s; // public/ path (e.g. /assets/pic.jpg)
-  if (s.startsWith("http://") || s.startsWith("https://")) return s; // absolute URL
-  throw new Error("Image must start with / (public path) or https:// (remote URL).");
-}
 
-async function updateHomilyAction(oldSlug: string, formData: FormData) {
-  "use server";
-
-  const title = String(formData.get("title") ?? "").trim();
-  const slug = String(formData.get("slug") ?? "").trim();
-  const dateStr = String(formData.get("date") ?? "").trim();
-  const summary = String(formData.get("summary") ?? "").trim();
-  const content = String(formData.get("content") ?? "").trim();
-  const image = normalizeImage(formData.get("image")?.toString());
-
-  if (!title || !slug || !dateStr) {
-    throw new Error("Title, slug, and date are required.");
-  }
-
-  await prisma.homily.update({
-    where: { slug: oldSlug },
-    data: {
-      title,
-      slug,
-      date: new Date(dateStr),
-      image,
-      summary,
-      content,
-    },
-  });
-
-  // Refresh admin list and public detail
-  revalidatePath("/dashboard/homily");
-  revalidatePath(`/homily/${slug}`);
-
-  redirect("/dashboard/homily");
-}
-
-async function deleteHomilyAction(slug: string) {
-  "use server";
-  await prisma.homily.delete({ where: { slug } });
-  revalidatePath("/dashboard/homily");
-  redirect("/dashboard/homily");
-}
 
 export default async function EditHomilyPage({ params }: Props) {
-  const { id } = await params; // current slug
-  const item = await prisma.homily.findUnique({ where: { slug: id } });
+  const { id: slug } = await params;
+  if (!slug) return notFound();
+  const where = isObjectId(slug) ? { id: slug } : { slug};
+  const item = await prisma.homily.findUnique({ where});
   if (!item) return notFound();
 
   const isoDate = new Date(item.date).toISOString().slice(0, 10);
@@ -77,7 +35,7 @@ export default async function EditHomilyPage({ params }: Props) {
       <div className="grid gap-6 md:grid-cols-[1fr,16rem]">
         {/* Form */}
         <form
-          action={updateHomilyAction.bind(null, id)}
+          action={updateHomilyAction.bind(null, slug)}
           className="space-y-4 rounded-2xl border bg-white p-5"
         >
           <div>
@@ -100,9 +58,7 @@ export default async function EditHomilyPage({ params }: Props) {
                 className="mt-1 w-full rounded-lg border px-3 py-2"
                 placeholder="ordination-rev-john-doe"
               />
-              <p className="mt-1 text-xs text-slate-500">
-                Changing the slug updates the URL (e.g. /Homily/your-slug).
-              </p>
+             
             </div>
             <div>
               <label className="block text-sm font-medium">Date</label>
@@ -120,16 +76,20 @@ export default async function EditHomilyPage({ params }: Props) {
             <label className="block text-sm font-medium">Image URL (optional)</label>
             <input
               name="image"
-              defaultValue={item.image ?? ""}
+              type="file"
+              // defaultValue={item.image ?? ""}
+              accept="image/*"
+              id="image"
               className="mt-1 w-full rounded-lg border px-3 py-2"
-              placeholder="/assets/building1.jpg or https://example.com/image.jpg"
+             
             />
-            <p className="mt-1 text-xs text-slate-500">
-              Use a path from <code>public/</code> starting with <code>/</code> or a full <code>https://</code> URL.
-            </p>
           </div>
 
           <div>
+            <p className="mt-1 text-sm text-slate-500">
+                          Current:{""}
+                        <Image src={item.image} alt="image" width={100} height={100} loading="lazy"/>
+                        </p>
             <label className="block text-sm font-medium">Short description</label>
             <textarea
               name="description"
@@ -157,7 +117,7 @@ export default async function EditHomilyPage({ params }: Props) {
               Save changes
             </button>
             <Link
-              href="/dashboard/homily"
+              href="/dashboard/bishop/homily"
               className="rounded-xl border px-4 py-2 hover:bg-slate-50"
             >
               Cancel
@@ -179,15 +139,6 @@ export default async function EditHomilyPage({ params }: Props) {
               )}
             </div>
           </div>
-
-          <form action={deleteHomilyAction.bind(null, id)}>
-            <button
-              type="submit"
-              className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-red-700 hover:bg-red-100"
-            >
-              Delete Homily
-            </button>
-          </form>
         </div>
       </div>
     </div>

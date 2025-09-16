@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { AnnouncementFormData } from "../admin/announcements/new/page"; //This ensures the form and the server action recieve the same data
+import { AnnouncementFormData } from "../admin/announcements/new/page";
 import { BlogFormData } from "../admin/blog/new/page";
 import { HomilyFormData } from "../bishop/homily/new/page";
 import { redirect } from "next/navigation";

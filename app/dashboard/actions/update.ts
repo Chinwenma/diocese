@@ -278,6 +278,8 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
   revalidatePath("/");
   redirect("/dashboard/admin/announcements");
 }
+
+
  export async function updateBlogAction(oldSlug: string, formData: FormData) {
 
 
@@ -348,6 +350,79 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
   revalidatePath(`/blog/${slug}`);
   revalidatePath("/blog");
   redirect("/dashboard/admin/blog");
+}
+
+export async function updateHomilyAction(oldSlug: string, formData: FormData) {
+
+
+  const title = String(formData.get("title") ?? "").trim();
+  const slug = String(formData.get("slug") ?? "").trim();
+  const dateStr = String(formData.get("date") ?? "").trim();
+  const summary = String(formData.get("summary") ?? "").trim();
+  const content = String(formData.get(" content") ?? "").trim();
+
+    if (!title) {
+    throw new Error("Title is required.");
+  }
+  if (!slug) {
+    throw new Error("Subtitle is required.");
+  }
+  if (!dateStr) {
+    throw new Error("Text is required.");
+  }
+  const existingHomily = await prisma.homily.findUnique({ where: { slug } });
+  if (!existingHomily) {
+    throw new Error("Announcement not found.");
+  }
+  let imageUrl = existingHomily.image;
+  const imageFile = formData.get("image");
+  if (imageFile instanceof File && imageFile.size > 0) {
+    try {
+      // Upload new image image
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const uploadResponse = await imagekit.upload({
+        file: buffer,
+        fileName: `Homily-image-${slug}-${Date.now()}.${imageFile.name
+          .split(".")
+          .pop()}`,
+        folder: "/katsina/homily/images",
+      });
+      imageUrl = uploadResponse.url;
+
+      // Delete old image image from ImageKit
+      if (existingHomily.image) {
+        const fileId = existingHomily.image.split("/").pop()?.split(".")[0];
+        if (fileId) {
+          try {
+            await imagekit.deleteFile(fileId);
+          } catch (error: any) {
+            console.error(`Failed to delete old image image: ${error.message}`);
+          }
+        }
+      }
+    } catch (error: any) {
+      throw new Error(`Failed to upload image image: ${error.message}`);
+    }
+  }
+
+  await prisma.homily.update({
+    where: { slug: oldSlug },
+    data: {
+      title,
+      slug,
+      date: new Date(dateStr),
+      image: imageUrl,
+      summary,
+      content,
+    },
+  });
+
+  revalidatePath("/dashboard/bishop/homily");
+  revalidatePath(`/homily/${slug}`);
+  revalidatePath("/homily");
+  revalidatePath("/");
+  redirect("/dashboard/bishop/homily");
 }
 
 

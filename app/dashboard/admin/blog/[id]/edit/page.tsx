@@ -1,4 +1,3 @@
-// import { deleteBlog } from "@/app/dashboard/actions/delete";
 import { updateBlogAction } from "@/app/dashboard/actions/update";
 import prisma from "@/lib/prisma";
 import { isObjectId } from "@/lib/slugify";
@@ -113,7 +112,7 @@ export default async function EditBlogPage({ params }: Props) {
               Save changes
             </button>
             <Link
-              href="/dashboard/blog"
+              href="/dashboard/admin/blog"
               className="rounded-xl border px-4 py-2 hover:bg-slate-50"
             >
               Cancel
@@ -140,15 +139,7 @@ export default async function EditBlogPage({ params }: Props) {
               )}
             </div>
           </div>
-{/* 
-          <form action={deleteBlog.bind(null, slug)}>
-            <button
-              type="submit"
-              className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-red-700 hover:bg-red-100"
-            >
-              Delete blog
-            </button>
-          </form> */}
+
         </div>
       </div>
     </div>

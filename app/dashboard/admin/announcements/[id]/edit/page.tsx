@@ -5,11 +5,9 @@ import { isObjectId } from "@/lib/slugify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { deleteAnnouncement } from "@/app/dashboard/actions/delete";
 import { updateAnnouncementAction } from "@/app/dashboard/actions/update";
 
-type Props = { params: Promise<{ id: string }> }; // `id` is the current slug
-
+type Props = { params: Promise<{ id: string }> }; 
 export default async function EditAnnouncementPage({ params }: Props) {
   const { id: slug } = await params;
   if (!slug) return notFound();
@@ -90,6 +88,8 @@ export default async function EditAnnouncementPage({ params }: Props) {
               id="image"
               type="file"
               accept="image/*"
+              height={300}
+              width={400}
               className="mt-1 w-full rounded-lg border px-3 py-2"
             />
           </div>
@@ -153,15 +153,6 @@ export default async function EditAnnouncementPage({ params }: Props) {
               )}
             </div>
           </div>
-
-          <form action={deleteAnnouncement.bind(null, slug)}>
-            <button
-              type="submit"
-              className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-red-700 hover:bg-red-100"
-            >
-              Delete announcement
-            </button>
-          </form>
         </div>
       </div>
     </div>
