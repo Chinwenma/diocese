@@ -150,8 +150,8 @@ export default function NewBlogPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Slug</label>
           <input
+          type="hidden"
             name="slug"
             required
             value={formData.slug}

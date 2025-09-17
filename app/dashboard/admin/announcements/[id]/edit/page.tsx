@@ -1,4 +1,3 @@
-
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import { isObjectId } from "@/lib/slugify";
@@ -7,7 +6,7 @@ import { notFound } from "next/navigation";
 
 import { updateAnnouncementAction } from "@/app/dashboard/actions/update";
 
-type Props = { params: Promise<{ id: string }> }; 
+type Props = { params: Promise<{ id: string }> };
 export default async function EditAnnouncementPage({ params }: Props) {
   const { id: slug } = await params;
   if (!slug) return notFound();
@@ -45,28 +44,27 @@ export default async function EditAnnouncementPage({ params }: Props) {
               className="mt-1 w-full rounded-lg border px-3 py-2"
             />
           </div>
-
+          <div>
+            <label className="block text-sm font-medium">Date</label>
+            <input
+              name="date"
+              type="date"
+              id="date"
+              defaultValue={isoDate}
+              required
+              className="mt-1 w-full rounded-lg border px-3 py-2"
+            />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium">Slug</label>
               <input
+                type="hidden"
                 id="slug"
                 name="slug"
                 defaultValue={item.slug}
                 required
                 className="mt-1 w-full rounded-lg border px-3 py-2"
                 placeholder="announcement-slug"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Date</label>
-              <input
-                name="date"
-                type="date"
-                id="date"
-                defaultValue={isoDate}
-                required
-                className="mt-1 w-full rounded-lg border px-3 py-2"
               />
             </div>
           </div>
@@ -141,9 +139,8 @@ export default async function EditAnnouncementPage({ params }: Props) {
                 <Image
                   src={item.image}
                   alt={item.title}
-                  width={400 }
+                  width={400}
                   height={300}
-            
                   className="object-cover"
                 />
               ) : (

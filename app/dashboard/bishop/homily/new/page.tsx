@@ -149,8 +149,8 @@ export default function NewHomilyPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Slug</label>
           <input
+          type="hidden"
             name="slug"
             value={formData.slug}
             onChange={handleChange}

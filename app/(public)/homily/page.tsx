@@ -4,7 +4,9 @@ import PageBanner from "../../components/banner/PageBanner";
 import prisma from "@/lib/prisma";
 
 export default async function HomilyListPage() {
-  const items = await prisma.homily.findMany();
+  const items = await prisma.homily.findMany({
+    orderBy: { date: "desc" },
+  });
 
   return (
     <main>

@@ -47,20 +47,7 @@ export default async function EditHomilyPage({ params }: Props) {
               className="mt-1 w-full rounded-lg border px-3 py-2"
             />
           </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="block text-sm font-medium">Slug</label>
-              <input
-                name="slug"
-                defaultValue={item.slug}
-                required
-                className="mt-1 w-full rounded-lg border px-3 py-2"
-                placeholder="ordination-rev-john-doe"
-              />
-             
-            </div>
-            <div>
+ <div>
               <label className="block text-sm font-medium">Date</label>
               <input
                 name="date"
@@ -70,6 +57,19 @@ export default async function EditHomilyPage({ params }: Props) {
                 className="mt-1 w-full rounded-lg border px-3 py-2"
               />
             </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <input
+              type="hidden"
+                name="slug"
+                defaultValue={item.slug}
+                required
+                className="mt-1 w-full rounded-lg border px-3 py-2"
+                placeholder="ordination-rev-john-doe"
+              />
+             
+            </div>
+           
           </div>
 
           <div>

@@ -43,26 +43,25 @@ export default async function EditBlogPage({ params }: Props) {
               className="mt-1 w-full rounded-lg border px-3 py-2"
             />
           </div>
-
+          <div>
+            <label className="block text-sm font-medium">Date</label>
+            <input
+              name="date"
+              type="date"
+              defaultValue={isoDate}
+              required
+              className="mt-1 w-full rounded-lg border px-3 py-2"
+            />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium">Slug</label>
               <input
                 name="slug"
+                type="hidden"
                 defaultValue={item.slug}
                 required
                 className="mt-1 w-full rounded-lg border px-3 py-2"
                 placeholder="ordination-rev-john-doe"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Date</label>
-              <input
-                name="date"
-                type="date"
-                defaultValue={isoDate}
-                required
-                className="mt-1 w-full rounded-lg border px-3 py-2"
               />
             </div>
           </div>
@@ -81,7 +80,13 @@ export default async function EditBlogPage({ params }: Props) {
           <div>
             <p className="mt-1 text-sm text-slate-500">
               Current:{""}
-            <Image src={item.image} alt="image" width={100} height={100} loading="lazy"/>
+              <Image
+                src={item.image}
+                alt="image"
+                width={100}
+                height={100}
+                loading="lazy"
+              />
             </p>
             <label className="block text-sm font-medium">
               Short description
@@ -139,7 +144,6 @@ export default async function EditBlogPage({ params }: Props) {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>

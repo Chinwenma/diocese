@@ -7,11 +7,19 @@ import { Footer } from "../components/footer/Footer";
 import { roboto } from "@/font";
 
 
-
 export const metadata: Metadata = {
   title: "Catholic Diocese of Katsina",
   description: "Catholic Diocese of Katsina",
+  keywords: [
+    "Catholic Diocese of Katsina",
+    "Catholic Church Katsina",
+    "Catholic Diocese in Nigeria",
+    "Catholic faith",
+    "Catholic community",
+    "Christian community Katsina",
+  ],
 };
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

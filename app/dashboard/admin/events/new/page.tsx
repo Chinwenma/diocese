@@ -16,8 +16,8 @@ export default function NewEventPage() {
           />
         </div>
         <div>
-          <label htmlFor="slug" className="block text-sm font-medium text-slate-700">Slug</label>
           <input
+            type="hidden"
             id="slug"
             name="slug"
             placeholder="event-slug"

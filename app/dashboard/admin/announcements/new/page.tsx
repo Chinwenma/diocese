@@ -155,9 +155,9 @@ export default function NewAnnouncementPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Slug</label>
           <input
             name="slug"
+            type="hidden"
             value={formData.slug}
             onChange={handleChange}
             required

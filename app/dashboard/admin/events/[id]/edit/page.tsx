@@ -32,10 +32,9 @@ export default async function EditEventPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label htmlFor="slug" className="block text-sm font-medium text-slate-700">
-            Slug
-          </label>
+         
           <input
+            type="hidden"
             id="slug"
             name="slug"
             defaultValue={ev.slug}
