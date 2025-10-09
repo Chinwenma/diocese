@@ -1,3 +1,4 @@
+import { events } from './events';
 import prisma from './prisma';
 // import { slideData } from './slide';
 // import { users } from './userSeed';
@@ -12,9 +13,9 @@ async function main() {
   console.log('🌱 Seeding database...');
 
   // Seed Users
-  // await prisma.user.createMany({
-  //   data: users,
-  // });
+  await prisma.event.createMany({
+    data: events,
+  });
   // console.log(`✅ Seeded ${users.length} users`);
 
   // Seed Blogs (optional)

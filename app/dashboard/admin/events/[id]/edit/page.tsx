@@ -62,7 +62,7 @@ export default async function EditEventPage({ params }: PageProps) {
           <p className="mt-1 text-sm text-slate-500">
             Current: <Image src={ev.cover} alt="cover" width={100} height={100} loading="lazy" />
           </p>
-          <label htmlFor="cover" className="block text-sm font-medium text-slate-700">
+          {/* <label htmlFor="cover" className="block text-sm font-medium text-slate-700">
             Cover Image
           </label>
           <input
@@ -73,7 +73,7 @@ export default async function EditEventPage({ params }: PageProps) {
             width={400}
             height={300}
             className="w-full border rounded p-2 mt-1"
-          />
+          /> */}
         </div>
 
         <div>
@@ -89,7 +89,7 @@ export default async function EditEventPage({ params }: PageProps) {
               "None"
             )}
           </div>
-          <label htmlFor="images" className="block text-sm font-medium text-slate-700">
+          {/* <label htmlFor="images" className="block text-sm font-medium text-slate-700">
             Additional Images
           </label>
           <input
@@ -101,7 +101,7 @@ export default async function EditEventPage({ params }: PageProps) {
             width={400}
             height={300}
             className="w-full border rounded p-2 mt-1"
-          />
+          /> */}
         
         </div>
 
@@ -126,7 +126,7 @@ export default async function EditEventPage({ params }: PageProps) {
           <textarea
             id="content"
             name="content"
-            defaultValue={ev.content.join("\n")}
+            defaultValue={ev.content}
             placeholder="One paragraph per line"
             className="w-full border rounded p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={6}

@@ -3,14 +3,10 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-// Small helper: swallow "record not found" so Strict Mode double-submits don't explode
 function isRecordNotFound(e: any) {
   return e?.code === "P2025";
 }
 
-/* =========================
-   ANNOUNCEMENTS (by id)
-   ========================= */
 export async function deleteAnnouncement(id: string) {
   if (!id) return;
   try {
@@ -23,9 +19,6 @@ export async function deleteAnnouncement(id: string) {
     revalidatePath("/");
 }
 
-/* ================
-   BLOG (by id)
-   ================ */
 export async function deleteBlog(id: string) {
   if (!id) return;
   try {

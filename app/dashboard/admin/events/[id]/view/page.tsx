@@ -1,4 +1,4 @@
-import { deleteEvent } from "@/app/dashboard/actions/delete";
+
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +23,6 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-// Server action: delete event
 export default async function AdminEventViewPage({ params }: PageProps) {
   const { id: slug } = await params;
   if (!slug) return notFound();
@@ -69,16 +68,7 @@ export default async function AdminEventViewPage({ params }: PageProps) {
           </Link>
 
           {/* Delete (server action + confirm) */}
-          <form
-            action={deleteEvent.bind(null, ev.id)}
-          >
-            <button
-              type="submit"
-              className="rounded-lg bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700"
-            >
-              Delete
-            </button>
-          </form>
+   
         </div>
       </div>
 
@@ -116,9 +106,7 @@ export default async function AdminEventViewPage({ params }: PageProps) {
           {/* Long content */}
           {ev.content?.length > 0 && (
             <div className="prose prose-slate mt-6 max-w-none">
-              {ev.content.map((para, idx) => (
-                <p key={idx}>{para}</p>
-              ))}
+              {ev.content}
             </div>
           )}
         </article>

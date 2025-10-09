@@ -1,71 +1,39 @@
 export type EventItem = {
   slug: string;
   title: string;
-  date: Date; 
+  date: Date;
   excerpt: string;
   cover: string;
   images: string[];
-  content: string[];
+  content: string;
 };
 
 export const events: EventItem[] = [
   {
-    slug: "o-lumen-ecclesiae",
-    title: "O Lumen Ecclesiae",
-    date: new Date (2025-3-8),
+    slug: "seminarians-reconnect",
+    title:
+      "Seminarians Reconnect and Rekindle Vocation Spirit at Malumfashi Reunion",
+    date: new Date("2025-09-04T00:00:00.000Z"),
     excerpt:
-      "On August 8, we celebrate St. lorem  augue vehicula elit, in dapibus justo nulla nec purus.",
-    cover: "/assets/groto.jpg",
+      "The recently concluded seminarian reunion held at the Pastoral Centre, Malumfashi, from September 1st to 4th, brought together aspiring clergy and priests for a spiritually enriching and purpose-driven gathering. The event served as a moment of reflection, learning, and outreach, rekindling the flame of vocation among participants and the wider community.",
+    cover:
+      "https://ik.imagekit.io/verbum0179/events/covers/event-cover-seminarians-reconnect-1757427130891_7JkRgAHXU.jpg",
     images: [
-      "/assets/building1.jpg",
-      "/assets/building2.jpg",
-      "/assets/building3.jpg",
+      "https://ik.imagekit.io/verbum0179/katsina/events/event-image-seminarians-reconnect-1757427132296-bx98a2_Ct9poBrZJ.jpg",
+      "https://ik.imagekit.io/verbum0179/katsina/events/event-image-seminarians-reconnect-1757427133507-1ehk11_68ifwUq3o.jpg",
+      "https://ik.imagekit.io/verbum0179/katsina/events/event-image-seminarians-reconnect-1757427134646-mzvhxd_mAHX1Jsic.jpg",
+      "https://ik.imagekit.io/verbum0179/katsina/events/event-image-seminarians-reconnect-1757427135874-2fhcf5_R5ekOff9T.jpg",
     ],
-    content: [
-      "lorem  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-      "lorem  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-      "lorem  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-    ],
-  },
-  {
-    slug: "mary-and-martha-balance-of-faith",
-    title: "Mary, Martha, and the Balance of Faith",
-    date: new Date (2025-7-29),
-    excerpt:
-      "lorem isump dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus.",
-    cover: "/assets/logo.jpg",
-    images: [
-      "/assets/popeleo.jpeg",
-      "/assets/popeleo1.jpeg",
-    ],
-    content: [
-      "lorem  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-      "lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-    ],
-  },
-  {
-    slug: "i-came-from-st-jude",
-    title: `"I came from St. Jude"`,
-    date: new Date (2025-7-24),
-    excerpt:
-      "After several miscarriages, Dr. Arthur Lawrence saw his life as a gift of intercession.",
-    cover: "/assets/building9.jpg",
-    images: [
-      "/assets/building1.jpg",
-      "/assets/building2.jpg",
-      "/assets/building4.jpg",
-      "/assets/building9.jpg",
-    ],
-    content: [
-      "lorem  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-      "lorem  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique, lorem vel tincidunt gravida, ligula augue vehicula elit, in dapibus justo nulla nec purus. Vestibulum ac tortor ut libero dictum tristique. Sed consectetur ligula nec justo lacinia, non tincidunt neque convallis. In hac habitasse platea dictumst. Donec blandit augue at vestibulum fermentum. Ut rutrum diam at felis varius, nec vestibulum nisi facilisis. Integer iaculis nisi a neque pulvinar finibus. Cras a sem vitae sapien suscipit accumsan sed a enim.",
-    ],
+    content:
+      "The recently concluded seminarian reunion held at the Pastoral Centre, Malumfashi, from September 1st to 4th, brought together aspiring clergy and priests for a spiritually enriching and purpose-driven gathering. The event served as a moment of reflection, learning, and outreach, rekindling the flame of vocation among participants and the wider community.",
   },
 ];
 
 // Helpers
 export const getLatestEvents = (limit = 3) =>
-  [...events].sort((a, b) => +new Date(b.date) - +new Date(a.date)).slice(0, limit);
+  [...events]
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+    .slice(0, limit);
 
 export const getEventBySlug = (slug: string) =>
   events.find((e) => e.slug === slug);

@@ -19,9 +19,6 @@ export async function updateEvent(slugOrId: string, formData: FormData) {
   const dateStr = String(formData.get("date") || "").trim();
   const excerpt = String(formData.get("excerpt") || "").trim();
   const content = String(formData.get("content") || "")
-    .split("\n")
-    .map((c) => c.trim())
-    .filter((c) => c);
 
   // Validate required fields
   if (!title || !slug || !dateStr) {

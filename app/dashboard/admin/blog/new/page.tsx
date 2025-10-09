@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { getImageAuth } from "@/lib/imageKit";
 import slugifyWithUniqueSuffix from "@/lib/slugify";
-import {createBlog } from "@/app/dashboard/actions/create";
+import { createBlog } from "@/app/dashboard/actions/create";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -31,6 +31,7 @@ export default function NewBlogPage() {
     content: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isImageSet, setIsImageSet] = useState(false);
   const [errors, setErrors] = useState<Partial<BlogFormData>>({});
   const router = useRouter();
   // Auto-generate slug with unique suffix from title to help us and the user
@@ -42,7 +43,10 @@ export default function NewBlogPage() {
         slug: slugifyWithUniqueSuffix(formData.title),
       }));
     }
-  }, [formData.title]);
+    if(formData.image){
+      setIsImageSet(true);
+    }
+  }, [formData.title, formData.image]);
   /**
    * Validates the form data and returns an object containing any validation errors
    * @returns {Partial<BlogFormData>} An object containing validation error messages for each field
@@ -151,7 +155,7 @@ export default function NewBlogPage() {
 
         <div>
           <input
-          type="hidden"
+            type="hidden"
             name="slug"
             required
             value={formData.slug}
@@ -243,13 +247,15 @@ export default function NewBlogPage() {
         </div>
 
         <div className="flex gap-3">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50"
-          >
-            {isSubmitting ? "Saving..." : "Save"}
-          </button>
+          {isImageSet && (
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50"
+            >
+              {isSubmitting ? "Saving..." : "Save"}
+            </button>
+          )}
         </div>
       </form>
     </div>
