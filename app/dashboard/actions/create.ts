@@ -112,5 +112,4 @@ const {title, slug, date, excerpt, cover, content, images} = formData;
   revalidatePath("/dashboard/admin/events");
   revalidatePath("/event");
   revalidatePath("/");
-  redirect("/dashboard/admin/events");
 }
