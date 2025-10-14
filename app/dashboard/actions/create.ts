@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache";
 import { AnnouncementFormData } from "../admin/announcements/new/page";
 import { BlogFormData } from "../admin/blog/new/page";
 import { HomilyFormData } from "../bishop/homily/new/page";
-import { redirect } from "next/navigation";
 import { SliderFormData } from "../admin/sliders/new/page";
 import { EventFormData } from "../admin/events/new/page";
 import { ClergyFormData } from "../admin/clergy/new/page";
@@ -113,7 +112,6 @@ const {title, slug, date, excerpt, cover, content, images} = formData;
   revalidatePath("/dashboard/admin/events");
   revalidatePath("/event");
   revalidatePath("/");
-  redirect("/dashboard/admin/events");
 }
 
 
