@@ -1,5 +1,6 @@
 import ConfirmDelete from "@/app/components/button/confirmDeleteButton";
 import prisma from "@/lib/prisma";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function ClergyPage() {
@@ -24,6 +25,7 @@ export default async function ClergyPage() {
           <thead className="bg-slate-100 text-left">
             <tr>
               <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Image</th>
               <th className="px-4 py-2">Role</th>
               <th className="px-4 py-2">Parish</th>
               <th className="px-4 py-2">Phone</th>
@@ -45,6 +47,20 @@ export default async function ClergyPage() {
               clergy.map((c) => (
                 <tr key={c.id} className="border-t hover:bg-slate-50">
                   <td className="px-4 py-2 font-medium">{c.name}</td>
+                  <td className="px-4 py-3">
+                    <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-100">
+                      {c.image ? (
+                        <Image
+                          src={c.image}
+                          alt={c.name}
+                          fill
+                          loading="lazy"
+                          className="object-cover"
+                        />
+                      ) : null}
+                    </div>
+                  </td>
+
                   <td className="px-4 py-2">{c.role}</td>
                   <td className="px-4 py-2">{c.parish}</td>
                   <td className="px-4 py-2">{c.phone || "-"}</td>

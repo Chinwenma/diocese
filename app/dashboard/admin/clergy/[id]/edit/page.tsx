@@ -1,56 +1,31 @@
 import prisma from "@/lib/prisma";
-import { notFound, redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
+import { updateClergyAction } from "@/app/dashboard/actions/update";
+import Image from "next/image";
+import Link from "next/link";
 
-type PageProps = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string }> };
 
-function opt(v: unknown) {
-  const s = String(v ?? "").trim();
-  return s.length ? s : null; // convert empty strings -> null for optional fields
-}
 
-async function updateClergy(id: string, formData: FormData) {
-  "use server";
 
-  const name = String(formData.get("name") || "").trim();
-  const role = String(formData.get("role") || "").trim();
-  const parish = String(formData.get("parish") || "").trim();
-  const address = String(formData.get("address") || "").trim();
-  const phone = opt(formData.get("phone"));
-  const extra = opt(formData.get("extra"));
 
-  if (!name || !role || !parish || !address) {
-    throw new Error("Name, role, parish, and address are required.");
-  }
-
-  await prisma.clergy.update({
-    where: { id },
-    data: { name, role, parish, address, phone, extra },
-  });
-
-  revalidatePath("/dashboard/clergy");
-  revalidatePath("/");
-  revalidatePath("/clergy");
-  revalidatePath(`/clergy/${id}`);
-  redirect("/dashboard/clergy");
-}
-
-export default async function EditClergyPage({ params }: PageProps) {
+export default async function EditClergyPage({ params }: Props) {
   const { id } = await params;
 
   const item = await prisma.clergy.findUnique({
     where: { id },
-    select: {
-      id: true,
-      name: true,
-      role: true,
-      parish: true,
-      address: true,
-      phone: true,
-      extra: true,
-      createdAt: true,
-      updatedAt: true,
-    },
+    // select: {
+    //   id: true,
+    //   name: true,
+    //   role: true,
+    //   image: true,
+    //   parish: true,
+    //   address: true,
+    //   phone: true,
+    //   extra: true,
+    //   createdAt: true,
+    //   updatedAt: true,
+    // },
   });
 
   if (!item) return notFound();
@@ -59,12 +34,12 @@ export default async function EditClergyPage({ params }: PageProps) {
     <div className="max-w-2xl p-6">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold">Edit Clergy</h1>
-        <a href="/dashboard/clergy" className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50">
+        <a href="/dashboard/admin/clergy" className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50">
           ← Back
         </a>
       </div>
 
-      <form action={updateClergy.bind(null, id)} className="space-y-5 rounded-2xl border bg-white p-5">
+      <form action={updateClergyAction.bind(null, id)} className="space-y-5 rounded-2xl border bg-white p-5">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-medium">Name</label>
@@ -73,7 +48,8 @@ export default async function EditClergyPage({ params }: PageProps) {
               defaultValue={item.name}
               required
               className="mt-1 w-full rounded-lg border px-3 py-2"
-            />
+            />,
+            <input type="hidden" name="id" defaultValue={item.id} />
           </div>
 
           <div>
@@ -117,7 +93,31 @@ export default async function EditClergyPage({ params }: PageProps) {
             className="mt-1 w-full rounded-lg border px-3 py-2"
           />
         </div>
+        
+<div>
+            <label className="block text-sm font-medium">Image</label>
+            <input
+              name="image"
+              type="file"
+              accept="image/*"
+              id="image"
+              className="mt-1 w-full rounded-lg border px-3 py-2"
+            />
+          </div>
 
+          <div>
+            <p className="mt-1 text-sm text-slate-500">
+              Current:{""}
+              <Image
+                src={item.image}
+                alt="image"
+                width={100}
+                height={100}
+                loading="lazy"
+              />
+            </p>
+        
+          </div>
         <div>
           <label className="block text-sm font-medium">Extra (optional)</label>
           <textarea
@@ -136,9 +136,9 @@ export default async function EditClergyPage({ params }: PageProps) {
             <button type="submit" className="rounded-xl bg-amber-500 px-4 py-2 text-white hover:bg-amber-600">
               Save changes
             </button>
-            <a href="/dashboard/clergy" className="rounded-xl border px-4 py-2 hover:bg-slate-50">
+            <Link href="/dashboard/admin/clergy" className="rounded-xl border px-4 py-2 hover:bg-slate-50">
               Cancel
-            </a>
+            </Link>
           </div>
         </div>
       </form>

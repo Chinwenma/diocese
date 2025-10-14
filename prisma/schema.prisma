@@ -8,50 +8,51 @@ datasource db {
 }
 
 model Blog {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  title   String
-  slug    String   @unique
-  excerpt String
-  image   String
-  date    DateTime
-  content String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  @@map("blogs")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  slug      String   @unique
+  excerpt   String
+  image     String
+  date      DateTime
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([date(sort: Desc)])
+  @@map("blogs")
 }
 
 model Homily {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  title    String
-  slug     String   @unique
-  summary  String
-  image    String
-  date     DateTime
-  content  String
-  userId   String?   @db.ObjectId
-  author   User?     @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  @@map("homilies")
-  @@index([date(sort: Desc)])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  slug      String   @unique
+  summary   String
+  image     String
+  date      DateTime
+  content   String
+  userId    String?  @db.ObjectId
+  author    User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  @@index([date(sort: Desc)])
+  @@map("homilies")
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  email     String    @unique
+  email     String   @unique
   password  String
-  role      UserRole  @default(ADMIN)
+  role      UserRole @default(ADMIN)
   avatar    String?
   bio       String?
   title     String?
-  isActive  Boolean   @default(true)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  homilies  Homily[]
+  homilies Homily[]
 }
 
 enum UserRole {
@@ -60,10 +61,11 @@ enum UserRole {
 }
 
 model Clergy {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  role      String
-  parish    String
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  role   String
+  parish String
+  image  String?
   address   String
   phone     String?
   extra     String?
@@ -71,22 +73,21 @@ model Clergy {
   updatedAt DateTime @updatedAt
 }
 
-
 model Event {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String   @unique
-  title    String
-  date     DateTime
-  excerpt  String
-  cover    String
-  images   String[]
-  content  String
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug    String   @unique
+  title   String
+  date    DateTime
+  excerpt String
+  cover   String
+  images  String[]
+  content String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("events")
   @@index([date(sort: Desc)])
+  @@map("events")
 }
 
 model Announcement {
@@ -98,11 +99,11 @@ model Announcement {
   description String
   details     String
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@map("announcements")
   @@index([date(sort: Desc)])
+  @@map("announcements")
 }
 
 model Slider {

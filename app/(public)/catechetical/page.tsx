@@ -268,6 +268,120 @@ export default function CatecheticalCentrePage() {
           ))}
         </div>
       </Section>
+
+
+      <Section id="catechists">
+  <SectionHeading
+    title="List of Catechists"
+    subtitle="Dedicated men and women serving in the Catechetical Ministry of the Catholic Diocese of Katsina"
+  />
+
+  {/* Active Catechists */}
+  <h3 className="text-2xl font-semibold mt-8 mb-4 text-[#800000] text-center">
+    Active Catechists
+  </h3>
+  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {[
+      "GARBA HARUNA",
+      "MUSTAPHA ISAH",
+      "NASIRU IBRAHIM JP",
+      "AUWAL ISAH",
+      "BITRUS YAHAYA",
+      "ANDRAWUS MAGAJI",
+      "THOMAS YARO MAGAJI",
+      "HABILA LUKA AYUBA",
+      "LUKA YUSHA'U",
+      "LUKA SAMAILA DODO",
+      "SULEIMAN MANI",
+      "BILYAMINU HASSAN",
+      "MIKAH ISAH",
+      "MIKAH SAMAILA",
+      "SAIDU GARBA",
+      "AYUBA SHEHU",
+      "EZEKIEL YUSUF",
+      "ISIYAKU ANDRAWUS",
+      "SOLOMON SIMON SULE",
+      "BULUS BALA MATHEW",
+      "ISAH YAKUBU AYUBA",
+      "YAHAYA ADAMU",
+      "YOHANNA CLEMENT",
+      "SAIDU YAHAYA",
+      "ELIJAH ANDREW",
+      "YAHAYA YUSUF",
+      "SAMINU HARUNA",
+      "SULEIMAN MUSA",
+      "YOHANNA NUHU M. SARKI",
+      "SIMON ADAMU",
+      "ISHAKU YOHANNA",
+      "ALIYU LAWAL",
+      "IBRAHIM ILIYA",
+      "ISHAYA ZAKARIYA",
+      "ELISHA IBRAHIM",
+      "MAURICE MICHAEL",
+      "SULEIMAN KABIR",
+      "HASSAN DANLAMI",
+      "PIUS BATURE",
+      "DANIEL IBRAHIM",
+      "IBRAHIM MARKUS",
+      "YAKUBU TIMOTHY",
+      "YAHAYA AYUBA",
+      "SULEIMAN IBRAHIM",
+      "IBRAHIM SANI",
+    ].map((name) => (
+      <Card key={name} className="text-center">
+        <h4 className="font-semibold text-lg mb-1 text-[#800000]">Catechist</h4>
+        <p className="text-gray-700 font-medium">{name}</p>
+      </Card>
+    ))}
+  </div>
+
+  {/* Additional Catechists */}
+  <h3 className="text-2xl  text-center font-semibold mt-12 mb-4 text-[#d0AE55]">
+    Additional Catechists
+  </h3>
+  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {[
+      "GARBA SAMAILA",
+      "PATRICK A. BARANZAN",
+      "KEFAS BAKO",
+      "SAMAILA MATO",
+      "EMMANUEL YOHANNA",
+      "RAMANU YUSUF",
+      "SAFAYANU ISHAYA",
+      "AYUBA IBRAHIM",
+      "SULE BAWA",
+      "GABRIEL IBRAHIM",
+    ].map((name) => (
+      <Card key={name} className="text-center">
+        <h4 className="font-semibold text-lg mb-1 text-[#d0AE55]">Catechist</h4>
+        <p className="text-gray-700 font-medium">{name}</p>
+      </Card>
+    ))}
+  </div>
+
+  {/* Retired Catechists */}
+  <h3 className="text-2xl font-semibold mt-12 mb-4 text-gray-700 text-center">
+    Retired Catechists
+  </h3>
+  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {[
+      "JOHN HASSAN",
+      "HARUNA YUNUSA",
+      "ISA ADAMU",
+      "SAMAILA ANDRAWUS",
+      "MATHEW YARO",
+      "YAKUBU MUSA",
+    ].map((name) => (
+      <Card key={name} className="text-center">
+        <h4 className="font-semibold text-lg mb-1 text-gray-600 text-center">
+          Retired Catechist
+        </h4>
+        <p className="text-gray-700 font-medium">{name}</p>
+      </Card>
+    ))}
+  </div>
+</Section>
+
       <Section>
         {/* <SectionHeading title="Ongoing Online Catechesis" /> */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

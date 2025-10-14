@@ -1,13 +1,12 @@
 import PageBanner from "../../components/banner/PageBanner";
 import { FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
-// import { motion } from 'framer-motion';
 
 export default function Page() {
   return (
     <>
       <PageBanner
         title="Contact Us"
-        subtitle="for inquiries and support"
+        subtitle="For inquiries, communication, and media support"
         backgroundImage="/assets/popeleo3.jpeg"
       />
 
@@ -15,7 +14,7 @@ export default function Page() {
       <section className="py-16 px-4 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-10">
           {/* Contact Form */}
-          <form  className="space-y-6 bg-white p-6 shadow rounded">
+          <form className="space-y-6 bg-white p-6 shadow rounded">
             <h2 className="text-2xl font-semibold text-[#0C1A2B]">
               Send Us a Message
             </h2>
@@ -41,7 +40,9 @@ export default function Page() {
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Message
               </label>
-              <textarea className="w-full border border-gray-300 rounded px-4 py-2 h-32 focus:outline-none focus:ring" />
+              <textarea
+                className="w-full border border-gray-300 rounded px-4 py-2 h-32 focus:outline-none focus:ring"
+              />
             </div>
             <button
               type="submit"
@@ -56,21 +57,46 @@ export default function Page() {
             <h2 className="text-2xl font-semibold text-[#0C1A2B]">
               Get in Touch
             </h2>
+
             <div className="flex items-start gap-4">
               <FaMapMarkerAlt className="text-[#DAA520] mt-1" />
-              <p>Nagogo Road, Opposite NITEL Exchange GRA</p>{" "}
+              <p>Nagogo Road, Opposite NITEL Exchange, GRA, Katsina State</p>
             </div>
+
             <div className="flex items-start gap-4">
               <FaMapMarkerAlt className="text-[#DAA520] mt-1" />
-              <p>P.O. BOX 55, Katsina State, Nigeria</p>{" "}
+              <p>P.O. BOX 55, Katsina, Nigeria</p>
             </div>
+
             <div className="flex items-start gap-4">
               <FaPhone className="text-[#DAA520] mt-1" />
-              <p>+234 810 646 4244</p>
+              <p>+234 907 541 1976</p>
             </div>
+
             <div className="flex items-start gap-4">
               <FaEnvelope className="text-[#DAA520] mt-1" />
-              <p>cathdiokatcomm@gmail.com</p>
+              <p>diocesekatsina@gmail.com</p>
+            </div>
+
+            {/* Media Contact Section */}
+            <div className="pt-6 border-t border-gray-200">
+              <h3 className="text-xl font-semibold text-[#0C1A2B] mb-2">
+                Communication & Media Department
+              </h3>
+              {/* <p className="text-gray-700">
+                For press releases, media coverage, or communication matters,
+                kindly reach out through the same contact channels below:
+              </p> */}
+              <ul className="mt-3 space-y-2 text-gray-700">
+                <li className="flex items-start gap-3">
+                  <FaPhone className="text-[#DAA520] mt-1" />
+                  +234 810 646 4244
+                </li>
+                <li className="flex items-start gap-3">
+                  <FaEnvelope className="text-[#DAA520] mt-1" />
+                  cathdiokatcomm@gmail.com
+                </li>
+              </ul>
             </div>
           </div>
         </div>

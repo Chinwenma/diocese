@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use server";
 import prisma from "@/lib/prisma";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import TeamSection from "./TeamSection";
 import PageBanner from "@/app/components/banner/PageBanner";
+import Image from "next/image";
 
 
 // Constants
@@ -74,7 +78,15 @@ subtitle="A complete directory of clergy and pastoral leadership"
         {/* List */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {clergy.map((item) => (
-            <div key={item.id} className="border p-6 rounded shadow">
+            <div key={item.id} className="border rounded shadow">
+              <Image
+                src={item.image || "/assets/default"}
+                alt={item.name}
+                width={300}
+                height={300}
+                className="w-full h-48  mb-4 rounded object-cover" 
+                loading="lazy"
+              />  
               <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
               <p className="text-yellow-700 font-medium flex items-center mb-2">
                 <span className="mr-2">👤</span>

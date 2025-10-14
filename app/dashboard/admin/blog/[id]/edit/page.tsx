@@ -21,7 +21,7 @@ export default async function EditBlogPage({ params }: Props) {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold">Edit Blog</h1>
         <Link
-          href="/dashboard/blog"
+          href="/dashboard/admin/blog"
           className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50"
         >
           ← Back

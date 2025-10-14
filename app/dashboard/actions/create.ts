@@ -9,6 +9,7 @@ import { HomilyFormData } from "../bishop/homily/new/page";
 import { redirect } from "next/navigation";
 import { SliderFormData } from "../admin/sliders/new/page";
 import { EventFormData } from "../admin/events/new/page";
+import { ClergyFormData } from "../admin/clergy/new/page";
 
 /**
  * Creates a new announcement with the provided form data
@@ -112,5 +113,25 @@ const {title, slug, date, excerpt, cover, content, images} = formData;
   revalidatePath("/dashboard/admin/events");
   revalidatePath("/event");
   revalidatePath("/");
+  redirect("/dashboard/admin/events");
+}
+
+
+export async function createClergy(formData: ClergyFormData) {
+  // Destructure the required fields from the form data
+  const { name, role, parish, address, phone, extra  } = formData;
+
+  await prisma.clergy.create({
+    data: {
+      name, 
+      role,
+       parish,
+        address,
+         phone, 
+         extra,
+    },
+  });
+revalidatePath("/dashboard/admin/clergy");
+  revalidatePath("/clergy");
   redirect("/dashboard/admin/events");
 }

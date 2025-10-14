@@ -423,3 +423,84 @@ export async function updateHomilyAction(oldSlug: string, formData: FormData) {
 }
 
 
+export async function updateClergyAction(oldId: string, formData: FormData) {
+  function opt(v: unknown) {
+  const s = String(v ?? "").trim();
+  return s.length ? s : null; // convert empty strings -> null for optional fields
+}
+  const name = String(formData.get("name") || "").trim();
+  const role = String(formData.get("role") || "").trim();
+  const parish = String(formData.get("parish") || "").trim();
+  const address = String(formData.get("address") || "").trim();
+  const phone = opt(formData.get("phone"));
+  const extra = opt(formData.get("extra"));
+  const id = String(formData.get("id") || "").trim(); 
+ if (!name ){
+  throw new Error("Text is name is required.");
+ }
+ if (!role) {
+  throw new Error("Role is required.");
+ } if (!parish) {
+  throw new Error("Parish is required.");
+ }
+  if (!address) {
+  throw new Error("Address is required.");
+ } 
+
+  const existingClergy = await prisma.clergy.findUnique({ where: { id } });
+  if (!existingClergy) {
+    throw new Error("Clergy not found.");
+  }
+  let imageUrl = existingClergy.image;
+  const imageFile = formData.get("image");
+  if (imageFile instanceof File && imageFile.size > 0) {
+    try {
+      // Upload new image image
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const uploadResponse = await imagekit.upload({
+        file: buffer,
+        fileName: `clergy-image-${name}-${Date.now()}.${imageFile.name
+          .split(".")
+          .pop()}`,
+        folder: "/katsina/clergy/images",
+      });
+      imageUrl = uploadResponse.url;
+
+      // Delete old image image from ImageKit
+      if (existingClergy.image) {
+        const fileId = existingClergy.image.split("/").pop()?.split(".")[0];
+        if (fileId) {
+          try {
+            await imagekit.deleteFile(fileId);
+          } catch (error: any) {
+            console.error(`Failed to delete old image image: ${error.message}`);
+          }
+        }
+      }
+    } catch (error: any) {
+      throw new Error(`Failed to upload image image: ${error.message}`);
+    }
+  }
+
+  await prisma.clergy.update({
+    where: { id: oldId },
+    data: {
+      name,
+       role,
+        parish, 
+        address, 
+        phone,
+         extra,
+         createdAt: new Date(),
+         updatedAt: new Date(),
+      image: imageUrl,
+    },
+  });
+
+ revalidatePath("/dashboard/admin/clergy");
+  revalidatePath("/");
+  revalidatePath("/clergy");
+  // revalidatePath(`/clergy/${id}`);
+  redirect("/dashboard/admin/clergy");
+}
