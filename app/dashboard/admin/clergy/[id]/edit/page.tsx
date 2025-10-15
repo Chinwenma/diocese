@@ -19,12 +19,12 @@ export default async function EditClergyPage({ params }: Props) {
     <div className="max-w-2xl p-6">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold">Edit Clergy</h1>
-        <a
+        <Link
           href="/dashboard/admin/clergy"
           className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50"
         >
           ← Back
-        </a>
+        </Link>
       </div>
 
       <form

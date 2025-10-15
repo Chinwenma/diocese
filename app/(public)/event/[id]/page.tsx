@@ -86,7 +86,7 @@ export default async function EventDetailPage({ params }: Params) {
         </p>
 
         {/* Cover Image */}
-        <div className="relative mt-6 h-80 w-full overflow-hidden rounded-lg border bg-white">
+        <div className="relative mt-6 h-96 w-full overflow-hidden">
           <Image
             src={event.cover}
             alt={event.title}

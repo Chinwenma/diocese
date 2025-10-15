@@ -9,7 +9,7 @@ export default function DioceseHistoryPage() {
           <p className="text-gray-600 mt-2">Formation, development, and current status of the Catholic Diocese of Katsina</p>
         </div>
 
-        <div className="prose prose-gray max-w-none">
+        <div className="prose prose-gray max-w-none text-justify leading-relaxed tracking-wider">
           <p>
             The Catholic Diocese of Katsina was officially established on Monday, 16th October 2023, as announced from the Vatican. His Holiness Pope Benedict appointed Reverend Monsignor Gerald Mamman Musa as its first Bishop. Prior to this, he served as an Associate Professor of Communications at the Catholic Institute of West Africa (CIWA), Port Harcourt.
           </p>
@@ -48,7 +48,7 @@ export default function DioceseHistoryPage() {
             In the early 2000s, new parishes and mass centers emerged in rural Katsina. These include: St. Joseph’s Shagari Low Cost, St. Gabriel’s Daura, St. Mary’s Dutsinma, St. Theresa’s Funtua, St. Vincent Ferrer’s Malumfashi, St. John Bosco’s Malamawa, and many more.
           </p>
 
-          <h3>Current Status</h3>
+          <h3><strong>Current Status</strong></h3>
 
           <p>
             The Diocese of Katsina has:

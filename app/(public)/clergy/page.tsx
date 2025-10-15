@@ -80,7 +80,7 @@ export default async function ClergyDirectory({
                     alt={item.name}
                     width={300}
                     height={300}
-                    className="w-full h-48 mb-4 rounded object-cover"
+                    className="w-full h-96 mb-4 rounded object-cover object-top"
                     loading="lazy"
                   />
                 ) : (

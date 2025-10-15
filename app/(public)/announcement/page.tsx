@@ -19,7 +19,7 @@ export default async function AnnouncementsPage() {
                   src={announcement.image}
                   alt={announcement.title}
                   fill
-                  className="object-cover object-center"
+                  className="object-contain"
                   loading='lazy'
                 />
               </div>
@@ -32,7 +32,7 @@ export default async function AnnouncementsPage() {
                       day: "numeric",
                     })}
                 </p>
-                <p className="text-gray-700 mb-4">{announcement.description}</p>
+                <p className="text-gray-700 mb-4 leading-relaxed tracking-wider text-justify">{announcement.description}</p>
                 <Link
                   href={`/announcement/${announcement.slug}`}
                   className="inline-block text-red-700 font-medium hover:underline"

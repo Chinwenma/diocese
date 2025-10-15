@@ -15,7 +15,7 @@ export default function BlogDetails({ blog }: { blog: Blog }) {
 
       <Link
         href="/blog"
-        className="text-blue-600 hover:underline mb-4 inline-block"
+        className="text-green-600 hover:underline mb-4 inline-block"
       >
         ← Back to Blogs
       </Link>
@@ -26,8 +26,16 @@ export default function BlogDetails({ blog }: { blog: Blog }) {
       >
         {blog.title}
       </h1>
-
-      <div className="relative w-full h-96 rounded-lg overflow-hidden mb-6">
+      <div className="relative mt-6 h-96 w-full overflow-hidden">
+        <Image
+          src={blog.image}
+          alt={blog.title}
+          fill
+          className="object-contain"
+          priority
+        />
+      </div>
+      {/* <div className="relative w-full h-96 rounded-lg overflow-hidden mb-6">
         <Image
           src={blog.image}
           alt={blog.title}
@@ -35,14 +43,14 @@ export default function BlogDetails({ blog }: { blog: Blog }) {
           className="object-cover"
           priority
         />
-      </div>
+      </div> */}
 
       <p className="text-sm text-gray-500 mb-6" itemProp="datePublished">
         {blog.date.toDateString()}
       </p>
 
       <div
-        className="prose prose-lg text-gray-700 leading-relaxed"
+        className="prose prose-lg text-gray-700 tracking-wider  text-justify leading-relaxed"
         itemProp="articleBody"
       >
         {blog.content}

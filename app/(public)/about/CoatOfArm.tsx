@@ -7,7 +7,7 @@ import Link from "next/link";
 const CoatOfArmsSection = () => {
   return (
     <section className="relative w-full text-white py-12 px-4 md:px-16 overflow-hidden bg-green-700">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 relative z-10">
+      <div className="max-w-6xl mx-auto flex flex-col my-28 gap-36 md:flex-row items-center md:gap-10 relative z-10">
         {/* Left Image */}
         <motion.div
           className="flex-1 flex justify-center"
@@ -36,7 +36,7 @@ const CoatOfArmsSection = () => {
           <h2 className="text-2xl md:text-3xl font-semibold mb-4">
             Catholic Diocese of Katsina Coat of Arm
           </h2>
-          <p className="text-gray-100 mb-4 text-justify">
+          <p className="text-gray-100 mb-4 text-justify leading-relaxed tracking-wider">
             Coat of arms, originating in Europe during the late 11th century,
             were initially employed on the battlefield for warriors to
             distinguish their comrades. These same symbols were later utilised

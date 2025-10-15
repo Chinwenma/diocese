@@ -1,3 +1,4 @@
+import PageBanner from "@/app/components/banner/PageBanner";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,6 +33,12 @@ export default async function AnnouncementDetailPage({ params }: Props) {
   if (!item) return notFound();
 
   return (
+
+    <main
+    >
+      <PageBanner 
+      title="All Announcements"
+      />
     <article className="py-16 px-4 bg-gray-100">
       <div className="max-w-3xl mx-auto">
         <div className="mb-6">
@@ -54,19 +61,22 @@ export default async function AnnouncementDetailPage({ params }: Props) {
           {item.title}
         </h1>
 
-        <div className="relative w-full h-72 md:h-96 mb-8 rounded-lg overflow-hidden shadow">
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            className="object-cover"
-          />
-        </div>
+           <div className="relative my-8 h-96 w-full overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-contain "
+                    priority
+                  />
+                </div>
 
-        <div className="[overflow-wrap:anywhere] [word-break:break-word] hyphens-auto">
+
+        <div className="[overflow-wrap:anywhere] text-justify [word-break:break-word] hyphens-auto leading-relaxed tracking-wider">
           <p>{item.details}</p>
         </div>
       </div>
     </article>
+    </main>
   );
 }
