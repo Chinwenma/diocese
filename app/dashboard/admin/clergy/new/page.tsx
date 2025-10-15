@@ -7,9 +7,10 @@ import Image from "next/image";
 import { getImageAuth } from "@/lib/imageKit";
 import slugifyWithUniqueSuffix from "@/lib/slugify";
 import Link from "next/link";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createClergy } from "@/app/dashboard/actions/create";
 import { FormEvent, useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 export interface ClergyFormData {
   name: string;
   role: string;
@@ -24,7 +25,7 @@ const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
 // These two are for image kit provider to work well
 
 export default function NewClergyPage() {
- const [formData, setFormData] = useState<ClergyFormData>({
+  const [formData, setFormData] = useState<ClergyFormData>({
     name: "",
     image: "",
     role: "",
@@ -34,10 +35,10 @@ export default function NewClergyPage() {
     parish: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState<Partial<ClergyFormData>>({});
-    const router = useRouter();
+  const [errors, setErrors] = useState<Partial<ClergyFormData>>({});
+  const router = useRouter();
 
-     // Auto-generate slug with unique suffix from title to help us and the user
+  // Auto-generate slug with unique suffix from title to help us and the user
   //I expect you to do this for everything that has slug
   useEffect(() => {
     if (formData.name) {
@@ -52,13 +53,13 @@ export default function NewClergyPage() {
    * @returns {Partial<ClergyFormData>} An object containing validation error messages for each field
    */
   const validateForm = () => {
-        const newErrors: Partial<ClergyFormData> = {};
-    
-  if (!formData.name.trim()) newErrors.name = "name is required";
+    const newErrors: Partial<ClergyFormData> = {};
+
+    if (!formData.name.trim()) newErrors.name = "name is required";
 
     if (!formData.role.trim()) newErrors.role = "role is required";
 
-    if (!formData.parish.trim()) newErrors.parish = "parish is required"; 
+    if (!formData.parish.trim()) newErrors.parish = "parish is required";
     if (!formData.address.trim()) newErrors.address = "address is required";
     return newErrors;
   };
@@ -68,46 +69,46 @@ export default function NewClergyPage() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  // Clear error when user starts typing
-  if(errors[name as keyof ClergyFormData]) {
+    // Clear error when user starts typing
+    if (errors[name as keyof ClergyFormData]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
-  
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const formErrors = validateForm();
-      //This is form validation to ensure the expected data goes to the server
-      if (Object.keys(formErrors).length > 0) {
-        setErrors(formErrors);
-        toast.error("Please fill in all required fields");
-        return;
-      }
-  
-      setIsSubmitting(true); //This is to prevent the form from being submitted multiple times
-      //You looked really beautiful today
-      //Let me know if you see this. Reply with your favourite sticker
-      try {
-        await createClergy(formData);
-        toast.success("Clergy created successfully");
-        setFormData({
-          name: "",
-          image: "",
-          role: "",
-          parish: "",
-          phone: "",
-          address: "",
-          extra: "",
-        });
-      } catch (error) {
-        toast.error(error instanceof Error ? error.message : "An error occurred");
-        //errors are handled here
-      } finally {
-        setIsSubmitting(false);
-      }
-    };
 
-     /**
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formErrors = validateForm();
+    //This is form validation to ensure the expected data goes to the server
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setIsSubmitting(true); //This is to prevent the form from being submitted multiple times
+    //You looked really beautiful today
+    //Let me know if you see this. Reply with your favourite sticker
+    try {
+      await createClergy(formData);
+      toast.success("Clergy created successfully");
+      setFormData({
+        name: "",
+        image: "",
+        role: "",
+        parish: "",
+        phone: "",
+        address: "",
+        extra: "",
+      });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "An error occurred");
+      //errors are handled here
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  /**
    * Handles successful image upload by updating form data and showing success message
    * @param {any} res - The response object containing uploaded image URL
    */
@@ -128,6 +129,10 @@ export default function NewClergyPage() {
   };
   return (
     <div className="max-w-2xl p-6">
+       <ArrowLeft
+        className="cursor-pointer my-4"
+        onClick={() => router.back()}
+      />
       <div className="mb-4">
         <h1 className="text-xl font-semibold">Add New Clergy</h1>
         <p className="text-sm text-slate-500">
@@ -135,7 +140,10 @@ export default function NewClergyPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border bg-white p-5">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-5 rounded-2xl border bg-white p-5"
+      >
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-medium">Name</label>
@@ -184,7 +192,9 @@ export default function NewClergyPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Phone (optional)</label>
+            <label className="block text-sm font-medium">
+              Phone (optional)
+            </label>
             <input
               name="phone"
               value={formData.phone}
@@ -207,7 +217,7 @@ export default function NewClergyPage() {
             placeholder="Parish house address"
           />
         </div>
-         <div>
+        <div>
           <label className="block text-sm font-medium">Image</label>
           {/* This provider must wrap the IkUpload */}
           <ImageKitProvider
@@ -256,6 +266,8 @@ export default function NewClergyPage() {
             className="rounded-xl bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
           >
             Save
+                          {isSubmitting ? "Saving..." : "Save"}
+
           </button>
           <Link
             href="/dashboard/admin/clergy"

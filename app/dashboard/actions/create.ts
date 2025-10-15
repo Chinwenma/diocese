@@ -90,7 +90,7 @@ export async function createHomily(formData: HomilyFormData) {
 }
 
 export async function createEvent(formData: EventFormData) {
-const {title, slug, date, excerpt, cover, content, images} = formData;
+  const { title, slug, date, excerpt, cover, content, images } = formData;
   try {
     await prisma.event.create({
       data: {
@@ -105,7 +105,7 @@ const {title, slug, date, excerpt, cover, content, images} = formData;
     });
   } catch (error: any) {
     console.log(error);
-    
+
     throw new Error(`Failed to create event: ${error.message}`);
   }
 
@@ -114,22 +114,21 @@ const {title, slug, date, excerpt, cover, content, images} = formData;
   revalidatePath("/");
 }
 
-
 export async function createClergy(formData: ClergyFormData) {
   // Destructure the required fields from the form data
-  const { name, role, parish, address, phone, extra  } = formData;
+  const { name, role, parish, address, phone, extra, image } = formData;
 
   await prisma.clergy.create({
     data: {
-      name, 
+      name,
       role,
-       parish,
-        address,
-         phone, 
-         extra,
+      parish,
+      address,
+      image,
+      phone,
+      extra,
     },
   });
-revalidatePath("/dashboard/admin/clergy");
+  revalidatePath("/dashboard/admin/clergy");
   revalidatePath("/clergy");
-  redirect("/dashboard/admin/events");
 }

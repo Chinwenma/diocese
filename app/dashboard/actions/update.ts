@@ -18,7 +18,7 @@ export async function updateEvent(slugOrId: string, formData: FormData) {
   const slug = String(formData.get("slug") || "").trim();
   const dateStr = String(formData.get("date") || "").trim();
   const excerpt = String(formData.get("excerpt") || "").trim();
-  const content = String(formData.get("content") || "")
+  const content = String(formData.get("content") || "");
 
   // Validate required fields
   if (!title || !slug || !dateStr) {
@@ -203,16 +203,17 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
   redirect("/dashboard/admin/sliders");
 }
 
- export async function updateAnnouncementAction(oldSlug: string, formData: FormData) {
-
-
+export async function updateAnnouncementAction(
+  oldSlug: string,
+  formData: FormData
+) {
   const title = String(formData.get("title") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim();
   const dateStr = String(formData.get("date") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const details = String(formData.get("details") ?? "").trim();
 
-    if (!title) {
+  if (!title) {
     throw new Error("Title is required.");
   }
   if (!slug) {
@@ -221,7 +222,9 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
   if (!dateStr) {
     throw new Error("Text is required.");
   }
-  const existingAnnouncement = await prisma.announcement.findUnique({ where: { slug } });
+  const existingAnnouncement = await prisma.announcement.findUnique({
+    where: { slug },
+  });
   if (!existingAnnouncement) {
     throw new Error("Announcement not found.");
   }
@@ -243,7 +246,10 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
 
       // Delete old image image from ImageKit
       if (existingAnnouncement.image) {
-        const fileId = existingAnnouncement.image.split("/").pop()?.split(".")[0];
+        const fileId = existingAnnouncement.image
+          .split("/")
+          .pop()
+          ?.split(".")[0];
         if (fileId) {
           try {
             await imagekit.deleteFile(fileId);
@@ -276,17 +282,14 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
   redirect("/dashboard/admin/announcements");
 }
 
-
- export async function updateBlogAction(oldSlug: string, formData: FormData) {
-
-
+export async function updateBlogAction(oldSlug: string, formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim();
   const dateStr = String(formData.get("date") ?? "").trim();
   const excerpt = String(formData.get("excerpt") ?? "").trim();
   const content = String(formData.get("content") ?? "").trim();
 
-    if (!title) {
+  if (!title) {
     throw new Error("Title is required.");
   }
   if (!slug) {
@@ -350,15 +353,13 @@ export async function updateSliderAction(oldId: string, formData: FormData) {
 }
 
 export async function updateHomilyAction(oldSlug: string, formData: FormData) {
-
-
   const title = String(formData.get("title") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim();
   const dateStr = String(formData.get("date") ?? "").trim();
   const summary = String(formData.get("summary") ?? "").trim();
   const content = String(formData.get(" content") ?? "").trim();
 
-    if (!title) {
+  if (!title) {
     throw new Error("Title is required.");
   }
   if (!slug) {
@@ -422,30 +423,30 @@ export async function updateHomilyAction(oldSlug: string, formData: FormData) {
   redirect("/dashboard/bishop/homily");
 }
 
-
 export async function updateClergyAction(oldId: string, formData: FormData) {
   function opt(v: unknown) {
-  const s = String(v ?? "").trim();
-  return s.length ? s : null; // convert empty strings -> null for optional fields
-}
+    const s = String(v ?? "").trim();
+    return s.length ? s : null; // convert empty strings -> null for optional fields
+  }
   const name = String(formData.get("name") || "").trim();
   const role = String(formData.get("role") || "").trim();
   const parish = String(formData.get("parish") || "").trim();
   const address = String(formData.get("address") || "").trim();
   const phone = opt(formData.get("phone"));
   const extra = opt(formData.get("extra"));
-  const id = String(formData.get("id") || "").trim(); 
- if (!name ){
-  throw new Error("Text is name is required.");
- }
- if (!role) {
-  throw new Error("Role is required.");
- } if (!parish) {
-  throw new Error("Parish is required.");
- }
+  const id = String(formData.get("id") || "").trim();
+  if (!name) {
+    throw new Error("Text is name is required.");
+  }
+  if (!role) {
+    throw new Error("Role is required.");
+  }
+  if (!parish) {
+    throw new Error("Parish is required.");
+  }
   if (!address) {
-  throw new Error("Address is required.");
- } 
+    throw new Error("Address is required.");
+  }
 
   const existingClergy = await prisma.clergy.findUnique({ where: { id } });
   if (!existingClergy) {
@@ -487,18 +488,18 @@ export async function updateClergyAction(oldId: string, formData: FormData) {
     where: { id: oldId },
     data: {
       name,
-       role,
-        parish, 
-        address, 
-        phone,
-         extra,
-         createdAt: new Date(),
-         updatedAt: new Date(),
+      role,
+      parish,
+      address,
+      phone,
+      extra,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       image: imageUrl,
     },
   });
 
- revalidatePath("/dashboard/admin/clergy");
+  revalidatePath("/dashboard/admin/clergy");
   revalidatePath("/");
   revalidatePath("/clergy");
   // revalidatePath(`/clergy/${id}`);

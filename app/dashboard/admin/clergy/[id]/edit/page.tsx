@@ -6,26 +6,11 @@ import Link from "next/link";
 
 type Props = { params: Promise<{ id: string }> };
 
-
-
-
 export default async function EditClergyPage({ params }: Props) {
   const { id } = await params;
 
   const item = await prisma.clergy.findUnique({
     where: { id },
-    // select: {
-    //   id: true,
-    //   name: true,
-    //   role: true,
-    //   image: true,
-    //   parish: true,
-    //   address: true,
-    //   phone: true,
-    //   extra: true,
-    //   createdAt: true,
-    //   updatedAt: true,
-    // },
   });
 
   if (!item) return notFound();
@@ -34,12 +19,18 @@ export default async function EditClergyPage({ params }: Props) {
     <div className="max-w-2xl p-6">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold">Edit Clergy</h1>
-        <a href="/dashboard/admin/clergy" className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50">
+        <a
+          href="/dashboard/admin/clergy"
+          className="rounded-lg border px-3 py-1.5 text-sm hover:bg-slate-50"
+        >
           ← Back
         </a>
       </div>
 
-      <form action={updateClergyAction.bind(null, id)} className="space-y-5 rounded-2xl border bg-white p-5">
+      <form
+        action={updateClergyAction.bind(null, id)}
+        className="space-y-5 rounded-2xl border bg-white p-5"
+      >
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-medium">Name</label>
@@ -48,7 +39,8 @@ export default async function EditClergyPage({ params }: Props) {
               defaultValue={item.name}
               required
               className="mt-1 w-full rounded-lg border px-3 py-2"
-            />,
+            />
+            ,
             <input type="hidden" name="id" defaultValue={item.id} />
           </div>
 
@@ -75,7 +67,9 @@ export default async function EditClergyPage({ params }: Props) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Phone (optional)</label>
+            <label className="block text-sm font-medium">
+              Phone (optional)
+            </label>
             <input
               name="phone"
               defaultValue={item.phone ?? ""}
@@ -93,31 +87,37 @@ export default async function EditClergyPage({ params }: Props) {
             className="mt-1 w-full rounded-lg border px-3 py-2"
           />
         </div>
-        
-<div>
-            <label className="block text-sm font-medium">Image</label>
-            <input
-              name="image"
-              type="file"
-              accept="image/*"
-              id="image"
-              className="mt-1 w-full rounded-lg border px-3 py-2"
-            />
-          </div>
 
-          <div>
-            <p className="mt-1 text-sm text-slate-500">
-              Current:{""}
-              <Image
-                src={item.image}
-                alt="image"
-                width={100}
-                height={100}
-                loading="lazy"
-              />
-            </p>
-        
-          </div>
+        <div>
+          <label className="block text-sm font-medium">Image</label>
+          <input
+            name="image"
+            type="file"
+            accept="image/*"
+            id="image"
+            className="mt-1 w-full rounded-lg border px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <p className="mt-1 text-sm text-slate-500">Current:</p>
+
+          {item.image ? (
+            <Image
+              src={item.image}
+              alt="Current clergy image"
+              width={100}
+              height={100}
+              loading="lazy"
+              className="mt-2 rounded object-cover border"
+            />
+          ) : (
+            <div className="mt-2 flex h-[100px] w-[100px] items-center justify-center rounded border bg-gray-100 text-xs text-gray-500">
+              No image uploaded
+            </div>
+          )}
+        </div>
+
         <div>
           <label className="block text-sm font-medium">Extra (optional)</label>
           <textarea
@@ -130,13 +130,24 @@ export default async function EditClergyPage({ params }: Props) {
 
         <div className="flex items-center justify-between">
           <p className="text-xs text-slate-500">
-            Last updated {item.updatedAt.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+            Last updated{" "}
+            {item.updatedAt.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
           </p>
           <div className="flex gap-3">
-            <button type="submit" className="rounded-xl bg-amber-500 px-4 py-2 text-white hover:bg-amber-600">
+            <button
+              type="submit"
+              className="rounded-xl bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
+            >
               Save changes
             </button>
-            <Link href="/dashboard/admin/clergy" className="rounded-xl border px-4 py-2 hover:bg-slate-50">
+            <Link
+              href="/dashboard/admin/clergy"
+              className="rounded-xl border px-4 py-2 hover:bg-slate-50"
+            >
               Cancel
             </Link>
           </div>
