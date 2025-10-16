@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, FormEvent, ChangeEvent, useEffect } from "react";
+import { useState, FormEvent, ChangeEvent, useEffect, use } from "react";
 import { IKUpload, ImageKitProvider } from "imagekitio-next";
 import { toast } from "react-toastify";
 import Image from "next/image";
@@ -32,6 +32,7 @@ export default function NewAnnouncementPage() {
     details: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isImageUploading, setIsImageUploading] =useState(false);
   const [errors, setErrors] = useState<Partial<AnnouncementFormData>>({});
   const router = useRouter();
   // Auto-generate slug with unique suffix from title to help us and the user

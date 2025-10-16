@@ -201,7 +201,7 @@ export default function NewEventPage() {
           </ImageKitProvider>
 
           {isCoverUploading && (
-            <p className="text-blue-600 text-sm mt-1">Uploading cover...</p>
+            <p className="text-green-600 text-sm mt-1">Uploading cover...</p>
           )}
 
           {formData.cover && (
@@ -211,6 +211,7 @@ export default function NewEventPage() {
                 alt="Cover Preview"
                 width={100}
                 height={100}
+                loading="lazy"
                 className="h-20 w-20 object-cover"
               />
             </div>
@@ -236,7 +237,7 @@ export default function NewEventPage() {
           </ImageKitProvider>
 
           {isGalleryUploading && (
-            <p className="text-blue-600 text-sm mt-1">Uploading gallery images...</p>
+            <p className="text-green-600 text-sm mt-1">Uploading gallery images...</p>
           )}
 
           {formData.images.length > 0 && (

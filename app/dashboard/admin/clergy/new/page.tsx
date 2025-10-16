@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { getImageAuth } from "@/lib/imageKit";
 import slugifyWithUniqueSuffix from "@/lib/slugify";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClergy } from "@/app/dashboard/actions/create";
 import { FormEvent, useEffect, useState } from "react";
@@ -35,6 +34,7 @@ export default function NewClergyPage() {
     parish: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false);
   const [errors, setErrors] = useState<Partial<ClergyFormData>>({});
   const router = useRouter();
 
@@ -84,7 +84,11 @@ export default function NewClergyPage() {
       toast.error("Please fill in all required fields");
       return;
     }
-
+    // Prevent submitting while uploading
+    if (isImageUploading) {
+      toast.error("Please wait for image to finish uploading");
+      return;
+    }
     setIsSubmitting(true); //This is to prevent the form from being submitted multiple times
     //You looked really beautiful today
     //Let me know if you see this. Reply with your favourite sticker
@@ -108,28 +112,23 @@ export default function NewClergyPage() {
     }
   };
 
-  /**
-   * Handles successful image upload by updating form data and showing success message
-   * @param {any} res - The response object containing uploaded image URL
-   */
+  /** ✅ Handle cover upload */
+  const onImageUploadStart = () => setIsImageUploading(true);
   const onImageUploadSuccess = (res: any) => {
-    // Update form data with the uploaded image URL while preserving other form fields
-    setFormData((prev) => ({ ...prev, image: res.url }));
-    // Display success notification to user
+    setFormData((prev) => ({ ...prev, cover: res.url }));
     toast.success("Image uploaded successfully");
+    setIsImageUploading(false);
+  };
+  const onImageUploadError = (err: any) => {
+    console.error(err);
+    toast.error("Image upload failed");
+    setIsImageUploading(false);
   };
 
-  /**
-   * Handles image upload errors by displaying an error message and logging the error to the console
-   * @param {any} err - The error object containing information about what went wrong during the upload
-   */
-  const onImageUploadError = (err: any) => {
-    toast.error("Image upload failed"); // Display error message to user using toast notification
-    console.error(err);
-  };
+  const canSave = !isSubmitting && !isImageUploading && formData.image;
   return (
     <div className="max-w-2xl p-6">
-       <ArrowLeft
+      <ArrowLeft
         className="cursor-pointer my-4"
         onClick={() => router.back()}
       />
@@ -192,9 +191,7 @@ export default function NewClergyPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">
-              Phone (optional)
-            </label>
+            <label className="block text-sm font-medium">Phone</label>
             <input
               name="phone"
               value={formData.phone}
@@ -228,10 +225,14 @@ export default function NewClergyPage() {
             <IKUpload
               folder={"/katsina/clergy"}
               onSuccess={onImageUploadSuccess}
+              onUploadStart={onImageUploadStart}
               onError={onImageUploadError}
               className="mt-1 w-full"
             />
           </ImageKitProvider>
+          {isImageUploading && (
+            <p className="text-green-600 text-sm mt-1">Uploading cover...</p>
+          )}
           {/* end of image upload part */}
           {/* Below serves as an image preview of the uploaded image */}
           {formData.image && (
@@ -263,18 +264,22 @@ export default function NewClergyPage() {
         <div className="flex gap-3">
           <button
             type="submit"
-            className="rounded-xl bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
+            disabled={!canSave}
+            className={`rounded-xl bg-amber-500 px-4 py-2 text-white hover:bg-amber-600 ${
+              canSave
+                ? "hover:bg-slate-50"
+                : "opacity-50 cursor-not-allowed bg-slate-100"
+            }`}
           >
             Save
-                          {isSubmitting ? "Saving..." : "Save"}
-
+            {isSubmitting ? "Saving..." : "Save"}
           </button>
-          <Link
+          {/* <Link
             href="/dashboard/admin/clergy"
             className="rounded-xl border px-4 py-2 hover:bg-slate-50"
           >
             Cancel
-          </Link>
+          </Link> */}
         </div>
       </form>
     </div>
