@@ -6,8 +6,8 @@ import Link from "next/link";
 
 const CoatOfArmsSection = () => {
   return (
-    <section className="relative w-full text-white py-12 px-4 md:px-16 overflow-hidden bg-green-700">
-      <div className="max-w-6xl mx-auto flex flex-col my-28 gap-36 md:flex-row items-center md:gap-10 relative z-10">
+    <section className="relative w-full text-white py-4 px-4 md:px-16 overflow-hidden bg-green-700">
+      <div className="max-w-6xl mx-auto flex flex-col sm:my-28 sm:gap-36 md:flex-row items-center relative z-10">
         {/* Left Image */}
         <motion.div
           className="flex-1 flex justify-center"
