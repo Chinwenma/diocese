@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, FormEvent, ChangeEvent, useEffect, use } from "react";
+import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { IKUpload, ImageKitProvider } from "imagekitio-next";
 import { toast } from "react-toastify";
 import Image from "next/image";
@@ -19,9 +19,10 @@ export interface AnnouncementFormData {
   description: string;
   details: string;
 }
+
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-// These two are for image kit provider to work well
+
 export default function NewAnnouncementPage() {
   const [formData, setFormData] = useState<AnnouncementFormData>({
     title: "",
@@ -32,11 +33,11 @@ export default function NewAnnouncementPage() {
     details: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isImageUploading, setIsImageUploading] =useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false);
   const [errors, setErrors] = useState<Partial<AnnouncementFormData>>({});
   const router = useRouter();
-  // Auto-generate slug with unique suffix from title to help us and the user
-  //I expect you to do this for everything that has slug
+
+  // Auto-generate slug with unique suffix
   useEffect(() => {
     if (formData.title) {
       setFormData((prev) => ({
@@ -45,23 +46,17 @@ export default function NewAnnouncementPage() {
       }));
     }
   }, [formData.title]);
-  /**
-   * Validates the form data and returns an object containing any validation errors
-   * @returns {Partial<AnnouncementFormData>} An object containing validation error messages for each field
-   */
+
+  // ✅ Validation function
   const validateForm = () => {
-    // Initialize an empty errors object with partial AnnouncementFormData type
     const newErrors: Partial<AnnouncementFormData> = {};
-    // Validate title field - check if it's empty after trimming whitespace
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    // Validate slug field - check if it's empty after trimming whitespace
     if (!formData.slug.trim()) newErrors.slug = "Slug is required";
-    // Validate details field - check if it's empty after trimming whitespace
     if (!formData.details.trim()) newErrors.details = "Details are required";
-    // Validate description field - check if it's empty after trimming whitespace
     if (!formData.description.trim())
       newErrors.description = "Description is required";
-    // Return the validation errors object
+    if (!formData.date.trim()) newErrors.date = "Date is required";
+    if (!formData.image.trim()) newErrors.image = "Image is required";
     return newErrors;
   };
 
@@ -71,7 +66,6 @@ export default function NewAnnouncementPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     if (errors[name as keyof AnnouncementFormData]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -80,21 +74,18 @@ export default function NewAnnouncementPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formErrors = validateForm();
-    //This is form validation to ensure the expected data goes to the server
+
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       toast.error("Please fill in all required fields");
       return;
     }
 
-    setIsSubmitting(true); //This is to prevent the form from being submitted multiple times
-    //You looked really beautiful today
-    //Let me know if you see this. Reply with your favourite sticker
+    setIsSubmitting(true);
     try {
       await createAnnouncement(formData);
       toast.success("Announcement created successfully");
       setFormData({
-        //This is to clear the form after submission
         title: "",
         slug: "",
         date: "",
@@ -104,38 +95,37 @@ export default function NewAnnouncementPage() {
       });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "An error occurred");
-      //errors are handled here
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /**
-   * Handles successful image upload by updating form data and showing success message
-   * @param {any} res - The response object containing uploaded image URL
-   */
+  // ✅ Image Upload Handlers
+  const onImageUploadStart = () => setIsImageUploading(true);
   const onImageUploadSuccess = (res: any) => {
-    // Update form data with the uploaded image URL while preserving other form fields
-    setFormData((prev) => ({ ...prev, image: res.url }));
-    // Display success notification to user
+    setFormData((prev) => ({ ...prev, image: res.url })); // ✅ Correct field name
     toast.success("Image uploaded successfully");
+    setIsImageUploading(false);
+  };
+  const onImageUploadError = (err: any) => {
+    console.error(err);
+    toast.error("Image upload failed");
+    setIsImageUploading(false);
   };
 
-  /**
-   * Handles image upload errors by displaying an error message and logging the error to the console
-   * @param {any} err - The error object containing information about what went wrong during the upload
-   */
-  const onImageUploadError = (err: any) => {
-    toast.error("Image upload failed"); // Display error message to user using toast notification
-    console.error(err);
-  };
+  // ✅ Enable save button only when all conditions are met
+  const canSave =
+    !isSubmitting &&
+    !isImageUploading &&
+    formData.title.trim() &&
+    formData.date.trim() &&
+    formData.description.trim() &&
+    formData.details.trim() &&
+    formData.image;
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <ArrowLeft
-        className="cursor-pointer my-4"
-        onClick={() => router.back()}
-      />
+      <ArrowLeft className="cursor-pointer my-4" onClick={() => router.back()} />
       <h1 className="text-2xl font-semibold mb-4">Create New Announcement</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -155,22 +145,7 @@ export default function NewAnnouncementPage() {
           )}
         </div>
 
-        <div>
-          <input
-            name="slug"
-            type="hidden"
-            value={formData.slug}
-            onChange={handleChange}
-            required
-            placeholder="ordination-rev-john-doe"
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
-              errors.slug ? "border-red-500" : ""
-            }`}
-          />
-          {errors.slug && (
-            <span className="text-red-500 text-sm">{errors.slug}</span>
-          )}
-        </div>
+        <input type="hidden" name="slug" value={formData.slug} />
 
         <div>
           <label className="block text-sm font-medium">Date</label>
@@ -191,7 +166,6 @@ export default function NewAnnouncementPage() {
 
         <div>
           <label className="block text-sm font-medium">Image</label>
-          {/* This provider must wrap the IkUpload */}
           <ImageKitProvider
             publicKey={publicKey}
             urlEndpoint={urlEndpoint}
@@ -200,12 +174,16 @@ export default function NewAnnouncementPage() {
             <IKUpload
               folder={"/katsina/announcements"}
               onSuccess={onImageUploadSuccess}
+              onUploadStart={onImageUploadStart}
               onError={onImageUploadError}
               className="mt-1 w-full"
             />
           </ImageKitProvider>
-          {/* end of image upload part */}
-          {/* Below serves as an image preview of the uploaded image */}
+
+          {isImageUploading && (
+            <p className="text-amber-600 text-sm mt-1">Uploading image, please wait...</p>
+          )}
+
           {formData.image && (
             <div className="mt-2">
               <Image
@@ -217,6 +195,10 @@ export default function NewAnnouncementPage() {
                 loading="lazy"
               />
             </div>
+          )}
+
+          {errors.image && (
+            <span className="text-red-500 text-sm">{errors.image}</span>
           )}
         </div>
 
@@ -253,8 +235,12 @@ export default function NewAnnouncementPage() {
         <div className="flex gap-3">
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50"
+            disabled={!canSave}
+            className={`rounded-xl px-4 py-2 text-white transition ${
+              canSave
+                ? "bg-amber-500 hover:bg-amber-600"
+                : "opacity-50 cursor-not-allowed bg-gray-300"
+            }`}
           >
             {isSubmitting ? "Saving..." : "Save"}
           </button>

@@ -7,10 +7,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { getImageAuth } from "@/lib/imageKit";
 import slugifyWithUniqueSuffix from "@/lib/slugify";
-import {
-  createHomily,
-} from "@/app/dashboard/actions/create";
-// import { ArrowLeft } from "lucide-react";
+import { createHomily } from "@/app/dashboard/actions/create";
 
 export interface HomilyFormData {
   title: string;
@@ -20,8 +17,10 @@ export interface HomilyFormData {
   summary: string;
   content: string;
 }
+
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+
 export default function NewHomilyPage() {
   const [formData, setFormData] = useState<HomilyFormData>({
     title: "",
@@ -32,9 +31,9 @@ export default function NewHomilyPage() {
     content: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false); // ✅ added state
   const [errors, setErrors] = useState<Partial<HomilyFormData>>({});
-  // Auto-generate slug with unique suffix from title to help us and the user
-  //I expect you to do this for everything that has slug
+
   useEffect(() => {
     if (formData.title) {
       setFormData((prev) => ({
@@ -43,22 +42,14 @@ export default function NewHomilyPage() {
       }));
     }
   }, [formData.title]);
-  /**
-   * Validates the form data and returns an object containing any validation errors
-   * @returns {Partial<AnnouncementFormData>} An object containing validation error messages for each field
-   */
+
   const validateForm = () => {
-    // Initialize an empty errors object with partial AnnouncementFormData type
     const newErrors: Partial<HomilyFormData> = {};
-    // Validate title field - check if it's empty after trimming whitespace
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    // Validate slug field - check if it's empty after trimming whitespace
     if (!formData.slug.trim()) newErrors.slug = "Slug is required";
-    // Validate description field - check if it's empty after trimming whitespace
     if (!formData.summary.trim()) newErrors.summary = "Description is required";
-    // Validate details field - check if it's empty after trimming whitespace
     if (!formData.content.trim()) newErrors.content = "Details are required";
-    // Return the validation errors object
+    if (!formData.image.trim()) newErrors.image = "Image is required";
     return newErrors;
   };
 
@@ -67,8 +58,6 @@ export default function NewHomilyPage() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error when user starts typing
     if (errors[name as keyof HomilyFormData]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -76,24 +65,19 @@ export default function NewHomilyPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-
     const formErrors = validateForm();
-    //This is form validation to ensure the expected data goes to the server
+
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       toast.error("Please fill in all required fields");
       return;
     }
 
-    setIsSubmitting(true); //This is to prevent the form from being submitted multiple times
-    //You looked really beautiful today
-    //Let me know if you see this. Reply with your favourite sticker
+    setIsSubmitting(true);
     try {
       await createHomily(formData);
       toast.success("Homily created successfully");
       setFormData({
-        //This is to clear the form after submission
         title: "",
         slug: "",
         date: "",
@@ -103,36 +87,40 @@ export default function NewHomilyPage() {
       });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "An error occurred");
-      //errors are handled here
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /**
-   * Handles successful image upload by updating form data and showing success message
-   * @param {any} res - The response object containing uploaded image URL
-   */
+  // ✅ Handle Image Upload
   const onImageUploadSuccess = (res: any) => {
-    // Update form data with the uploaded image URL while preserving other form fields
     setFormData((prev) => ({ ...prev, image: res.url }));
-    // Display success notification to user
+    setIsUploading(false);
     toast.success("Image uploaded successfully");
   };
 
-  /**
-   * Handles image upload errors by displaying an error message and logging the error to the console
-   * @param {any} err - The error object containing information about what went wrong during the upload
-   */
   const onImageUploadError = (err: any) => {
-    toast.error("Image upload failed"); // Display error message to user using toast notification
+    setIsUploading(false);
+    toast.error("Image upload failed");
     console.error(err);
   };
+
+  const isFormValid =
+    formData.title.trim() &&
+    formData.slug.trim() &&
+    formData.date.trim() &&
+    formData.summary.trim() &&
+    formData.content.trim() &&
+    formData.image &&
+    !isUploading &&
+    !isSubmitting;
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h2 className="text-xl font-semibold mb-4">New Homily</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Title */}
         <div>
           <label className="block text-sm font-medium">Title</label>
           <input
@@ -140,30 +128,27 @@ export default function NewHomilyPage() {
             value={formData.title}
             onChange={handleChange}
             required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.title ? "border-red-500" : ""
-              }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
+              errors.title ? "border-red-500" : ""
+            }`}
           />
           {errors.title && (
             <span className="text-red-500 text-sm">{errors.title}</span>
           )}
         </div>
 
-        <div>
-          <input
+        {/* Slug */}
+        <input
           type="hidden"
-            name="slug"
-            value={formData.slug}
-            onChange={handleChange}
-            required
-            placeholder="ordination-rev-john-doe"
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.slug ? "border-red-500" : ""
-              }`}
-          />
-          {errors.slug && (
-            <span className="text-red-500 text-sm">{errors.slug}</span>
-          )}
-        </div>
+          name="slug"
+          value={formData.slug}
+          onChange={handleChange}
+        />
+        {errors.slug && (
+          <span className="text-red-500 text-sm">{errors.slug}</span>
+        )}
 
+        {/* Date */}
         <div>
           <label className="block text-sm font-medium">Date</label>
           <input
@@ -172,13 +157,16 @@ export default function NewHomilyPage() {
             value={formData.date}
             onChange={handleChange}
             required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.date ? "border-red-500" : ""
-              }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
+              errors.date ? "border-red-500" : ""
+            }`}
           />
           {errors.date && (
             <span className="text-red-500 text-sm">{errors.date}</span>
           )}
         </div>
+
+        {/* Image Upload */}
         <div>
           <label className="block text-sm font-medium">Image</label>
           <ImageKitProvider
@@ -188,29 +176,38 @@ export default function NewHomilyPage() {
           >
             <IKUpload
               folder={"/katsina/homily"}
+              onUploadStart={() => setIsUploading(true)} // ✅ show uploading
               onSuccess={onImageUploadSuccess}
               onError={onImageUploadError}
               className="mt-1 w-full rounded-lg border px-3 py-2"
             />
           </ImageKitProvider>
-          {/* end of image upload part */}
-          {/* Below serves as an image preview of the uploaded image */}
+
+          {/* Upload progress feedback */}
+          {isUploading && (
+            <p className="text-sm text-blue-600 mt-2 animate-pulse">
+              ⏳ Uploading image, please wait...
+            </p>
+          )}
+
+          {/* Image Preview */}
           {formData.image && (
-            <div className="mt-2">
+            <div className="mt-3">
               <Image
                 src={formData.image}
                 alt="Preview"
-                width={100}
-                height={100}
+                width={120}
+                height={120}
                 loading="lazy"
-                className="h-20 w-20 object-cover"
+                className="h-24 w-24 object-cover rounded-md border"
               />
             </div>
           )}
         </div>
 
+        {/* Summary */}
         <div>
-          <label className="block text-sm font-medium">Short description</label>
+          <label className="block text-sm font-medium">Short Description</label>
           <textarea
             name="summary"
             value={formData.summary}
@@ -218,10 +215,12 @@ export default function NewHomilyPage() {
             rows={3}
             className="mt-1 w-full rounded-lg border px-3 py-2"
           />
+          {errors.summary && (
+            <span className="text-red-500 text-sm">{errors.summary}</span>
+          )}
         </div>
-        {errors.summary && (
-          <span className="text-red-500 text-sm">{errors.summary}</span>
-        )}
+
+        {/* Content */}
         <div>
           <label className="block text-sm font-medium">Details</label>
           <textarea
@@ -231,18 +230,25 @@ export default function NewHomilyPage() {
             rows={8}
             className="mt-1 w-full rounded-lg border px-3 py-2"
           />
+          {errors.content && (
+            <span className="text-red-500 text-sm">{errors.content}</span>
+          )}
         </div>
-        {errors.content && (
-          <span className="text-red-500 text-sm">{errors.content}</span>
-        )}
 
+        {/* Submit */}
         <div className="flex gap-3">
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50"
+            disabled={!isFormValid}
+            className={`rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50 ${
+              !isFormValid ? "cursor-not-allowed" : ""
+            }`}
           >
-            {isSubmitting ? "Saving..." : "Save"}
+            {isUploading
+              ? "Uploading..."
+              : isSubmitting
+              ? "Saving..."
+              : "Save"}
           </button>
         </div>
       </form>

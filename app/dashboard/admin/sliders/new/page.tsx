@@ -1,6 +1,7 @@
-"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+
+"use client";
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { IKUpload, ImageKitProvider } from "imagekitio-next";
 import { toast } from "react-toastify";
@@ -16,10 +17,12 @@ export interface SliderFormData {
   image: string;
   subtitle: string;
   text: string;
+  slug?: string;
 }
+
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-// These two are for image kit provider to work well
+
 export default function NewSliderPage() {
   const [formData, setFormData] = useState<SliderFormData>({
     title: "",
@@ -28,10 +31,10 @@ export default function NewSliderPage() {
     text: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [errors, setErrors] = useState<Partial<SliderFormData>>({});
   const router = useRouter();
-  // Auto-generate slug with unique suffix from title to help us and the user
-  //I expect you to do this for everything that has slug
+
   useEffect(() => {
     if (formData.title) {
       setFormData((prev) => ({
@@ -40,21 +43,13 @@ export default function NewSliderPage() {
       }));
     }
   }, [formData.title]);
-  /**
-   * Validates the form data and returns an object containing any validation errors
-   * @returns {Partial<SliderFormData>} An object containing validation error messages for each field
-   */
+
   const validateForm = () => {
-    // Initialize an empty errors object with partial SliderFormData type
     const newErrors: Partial<SliderFormData> = {};
-    // Validate title field - check if it's empty after trimming whitespace
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    // Validate text field - check if it's empty after trimming whitespace
     if (!formData.text.trim()) newErrors.text = "Text is required";
-    // Validate subtitle field - check if it's empty after trimming whitespace
-    if (!formData.subtitle.trim())
-      newErrors.subtitle = "Subtitle is required";
-    // Return the validation errors object
+    if (!formData.subtitle.trim()) newErrors.subtitle = "Subtitle is required";
+    if (!formData.image.trim()) newErrors.image = "Image is required";
     return newErrors;
   };
 
@@ -64,7 +59,6 @@ export default function NewSliderPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     if (errors[name as keyof SliderFormData]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -73,52 +67,43 @@ export default function NewSliderPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formErrors = validateForm();
-    //This is form validation to ensure the expected data goes to the server
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       toast.error("Please fill in all required fields");
       return;
     }
 
-    setIsSubmitting(true); //This is to prevent the form from being submitted multiple times
-    //You looked really beautiful today
-    //Let me know if you see this. Reply with your favourite sticker
+    setIsSubmitting(true);
     try {
       await createSlider(formData);
       toast.success("Slider created successfully");
-      setFormData({
-        title: "",
-        image: "",
-        subtitle: "",
-        text: "",
-      });
+      setFormData({ title: "", image: "", subtitle: "", text: "" });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "An error occurred");
-      //errors are handled here
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /**
-   * Handles successful image upload by updating form data and showing success message
-   * @param {any} res - The response object containing uploaded image URL
-   */
   const onImageUploadSuccess = (res: any) => {
-    // Update form data with the uploaded image URL while preserving other form fields
     setFormData((prev) => ({ ...prev, image: res.url }));
-    // Display success notification to user
+    setIsUploading(false);
     toast.success("Image uploaded successfully");
   };
 
-  /**
-   * Handles image upload errors by displaying an error message and logging the error to the console
-   * @param {any} err - The error object containing information about what went wrong during the upload
-   */
   const onImageUploadError = (err: any) => {
-    toast.error("Image upload failed"); // Display error message to user using toast notification
+    setIsUploading(false);
+    toast.error("Image upload failed");
     console.error(err);
   };
+
+  const isFormValid =
+    formData.title.trim() &&
+    formData.subtitle.trim() &&
+    formData.text.trim() &&
+    formData.image &&
+    !isUploading &&
+    !isSubmitting;
 
   return (
     <div className="max-w-2xl mx-auto p-6">
@@ -136,8 +121,9 @@ export default function NewSliderPage() {
             value={formData.title}
             onChange={handleChange}
             required
-            className={`mt-1 w-full rounded-lg border px-3 py-2 ${errors.title ? "border-red-500" : ""
-              }`}
+            className={`mt-1 w-full rounded-lg border px-3 py-2 ${
+              errors.title ? "border-red-500" : ""
+            }`}
           />
           {errors.title && (
             <span className="text-red-500 text-sm">{errors.title}</span>
@@ -146,7 +132,6 @@ export default function NewSliderPage() {
 
         <div>
           <label className="block text-sm font-medium">Image</label>
-          {/* This provider must wrap the IkUpload */}
           <ImageKitProvider
             publicKey={publicKey}
             urlEndpoint={urlEndpoint}
@@ -154,21 +139,28 @@ export default function NewSliderPage() {
           >
             <IKUpload
               folder={"/katsina/sliders"}
+              onUploadStart={() => setIsUploading(true)}
               onSuccess={onImageUploadSuccess}
               onError={onImageUploadError}
               className="mt-1 w-full"
             />
           </ImageKitProvider>
-          {/* end of image upload part */}
-          {/* Below serves as an image preview of the uploaded image */}
+
+          {/* Upload status feedback */}
+          {isUploading && (
+            <p className="text-sm text-blue-600 mt-2 animate-pulse">
+              ⏳ Uploading image, please wait...
+            </p>
+          )}
+
           {formData.image && (
-            <div className="mt-2">
+            <div className="mt-3">
               <Image
                 src={formData.image}
                 alt="Preview"
-                width={100}
-                height={100}
-                className="h-20 w-20 object-cover"
+                width={120}
+                height={120}
+                className="h-24 w-24 object-cover rounded-md border"
                 loading="lazy"
               />
             </div>
@@ -208,10 +200,16 @@ export default function NewSliderPage() {
         <div className="flex gap-3">
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50"
+            disabled={!isFormValid}
+            className={`rounded-lg border px-4 py-2 hover:bg-slate-50 disabled:opacity-50 ${
+              !isFormValid ? "cursor-not-allowed" : ""
+            }`}
           >
-            {isSubmitting ? "Saving..." : "Save"}
+            {isUploading
+              ? "Uploading..."
+              : isSubmitting
+              ? "Saving..."
+              : "Save"}
           </button>
         </div>
       </form>

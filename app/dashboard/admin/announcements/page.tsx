@@ -6,23 +6,22 @@ import ConfirmDelete from "@/app/components/button/confirmDeleteButton";
 export const dynamic = "force-dynamic";
 
 type Props = {
-  params?: Promise<{
+  searchParams?: Promise<{
     page?: string;
     pageSize?: string;
   }>;
 };
 
-export default async function AnnouncementsList({ params }: Props) {
-  // 1) Read & normalize query param
-  const searchParams = await params;
-  const page = Math.max(1, Number((searchParams?.page) ?? 1) || 1);
-  const pageSize = Math.min(
-    50,
-    Math.max(1, Number(searchParams?.pageSize ?? 5) || 10)
-  );
+export default async function AnnouncementsList({ searchParams }: Props) {
+  // ✅ Await searchParams (required in Next.js 15+)
+  const params = await searchParams;
+
+  // ✅ Safely read and normalize query params
+  const page = Math.max(1, Number(params?.page) || 1);
+  const pageSize = Math.min(50, Math.max(1, Number(params?.pageSize) || 10));
   const skip = (page - 1) * pageSize;
 
-  // 2) Query DB
+  // ✅ Query database
   const [total, items] = await Promise.all([
     prisma.announcement.count(),
     prisma.announcement.findMany({
@@ -35,21 +34,19 @@ export default async function AnnouncementsList({ params }: Props) {
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-  // 3) Helper to build page links
+  // ✅ Helper for pagination URLs
   const q = (p: number) => {
-    const params = new URLSearchParams();
-    params.set("page", String(p));
-    params.set("pageSize", String(pageSize));
-    return `/dashboard/admin/announcements?${params.toString()}`;
+    const query = new URLSearchParams();
+    query.set("page", String(p));
+    query.set("pageSize", String(pageSize));
+    return `/dashboard/admin/announcements?${query.toString()}`;
   };
 
   return (
     <div className="p-6">
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight">
-            Announcements
-          </h2>
+          <h2 className="text-xl font-semibold tracking-tight">Announcements</h2>
           <p className="text-sm text-slate-500">
             Create, edit and manage announcements.
           </p>
@@ -59,7 +56,7 @@ export default async function AnnouncementsList({ params }: Props) {
           href="/dashboard/admin/announcements/new"
           className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600"
         >
-          <span>+ Add New</span>
+          + Add New
         </Link>
       </div>
 
@@ -79,14 +76,14 @@ export default async function AnnouncementsList({ params }: Props) {
                 <tr key={a.slug} className="border-t">
                   <td className="px-4 py-3">
                     <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-100">
-                      {a.image ? (
+                      {a.image && (
                         <Image
                           src={a.image}
                           alt={a.title}
                           fill
                           className="object-cover"
                         />
-                      ) : null}
+                      )}
                     </div>
                   </td>
                   <td className="px-4 py-3 font-medium">{a.title}</td>
@@ -105,16 +102,13 @@ export default async function AnnouncementsList({ params }: Props) {
                       >
                         Edit
                       </Link>
-                      
-                      <div>
-                        <ConfirmDelete
-                          title="Delete announcement"
-                          message={`This will permanently delete “${a.title}”.`}
-                          busyText="Deleting..."
-                          id={a.id}
-                          module="announcement"
-                        />
-                      </div>
+                      <ConfirmDelete
+                        title="Delete announcement"
+                        message={`This will permanently delete “${a.title}”.`}
+                        busyText="Deleting..."
+                        id={a.id}
+                        module="announcement"
+                      />
                     </div>
                   </td>
                 </tr>
@@ -131,7 +125,7 @@ export default async function AnnouncementsList({ params }: Props) {
           </table>
         </div>
 
-        {/* 4) Pagination controls */}
+        {/* ✅ Pagination controls */}
         <div className="flex flex-col gap-3 border-t p-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-sm text-slate-500">
             Page <span className="font-medium text-slate-700">{page}</span> of{" "}
@@ -152,9 +146,8 @@ export default async function AnnouncementsList({ params }: Props) {
               ← Prev
             </Link>
 
-            {/* simple numbered pages (max 5) */}
+            {/* Numbered pages (max 5) */}
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              // center the window around current page when possible
               const start = Math.max(1, Math.min(page - 2, totalPages - 4));
               const p = start + i;
               if (p > totalPages) return null;
