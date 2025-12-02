@@ -134,27 +134,32 @@ const Navbar = () => {
               </li>
             ))}
             <li>
-              <DonateButton className="w-full mt-2 bg-yellow-600 text-white py-2 rounded text-center font-semibold" />
+              <Link href="/support" onClick={() => setMobileOpen(false)}>
+                <DonateButton className="w-full mt-2 bg-yellow-600 text-white py-2 rounded text-center font-semibold" />
+              </Link>
             </li>
             <div className="flex gap-4 pt-4 border-t border-gray-300">
-              <a
+              <Link
                 href="https://www.facebook.com/share/1649DPp6zj/"
                 aria-label="Facebook"
+                target="_blank"
               >
                 <FaFacebookF />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://www.instagram.com/cathdiokatcom?igsh=aGtmNzZpZmd5Ynln"
                 aria-label="Instagram"
+                target="_blank"
               >
                 <FaInstagram />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://youtube.com/@katsinacatholicdiocese?si=YWujbpQeJGRAAKn4"
                 aria-label="YouTube"
+                target="_blank"
               >
                 <FaYoutube />
-              </a>
+              </Link>
             </div>
           </ul>
         </div>

@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function NewsDetailPage({ params }: Props) {
-  const { id } =await params;
+  const { id } = await params;
   const item = await prisma.homily.findUnique({
     where: { slug: id },
     select: { title: true, date: true, content: true, image: true },
@@ -101,14 +101,17 @@ export default async function NewsDetailPage({ params }: Props) {
           <Image
             src={item.image}
             alt={item.title}
-            fill
-            className="object-cover"
-            priority
+           fill
+            className="object-contain w-full"
+            loading="lazy"
           />
         </div>
 
         {/* Content */}
-        <div className="prose prose-slate max-w-none" itemProp="articleBody">
+        <div
+          className="prose prose-slate max-w-none leading-relaxed tracking-wider text-justify"
+          itemProp="articleBody"
+        >
           <p>{item.content}</p>
         </div>
       </div>

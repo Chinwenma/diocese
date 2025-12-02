@@ -95,6 +95,7 @@ export default function NewGalleryPage() {
   };
 
   return (
+    
     <div className="max-w-2xl mx-auto p-6">
       <ArrowLeft className="cursor-pointer my-4" onClick={() => router.back()} />
       <h1 className="text-xl font-semibold mb-4">Create New Gallery Item</h1>

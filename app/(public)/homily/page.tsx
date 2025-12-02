@@ -18,17 +18,13 @@ export default async function HomilyListPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {items.map((item) => (
-              <Link
-                key={item.id}
-                href={`/homily/${item.slug}`}
-                className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition"
-              >
+              <div className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition" key={item.id}>
                 <div className="relative h-48 w-full">
                   <Image
                     src={item.image}
                     alt={item.title}
-                    fill
-                    className="object-cover"
+                   fill
+                    className="object-contain"
                   />
                 </div>
                 <div className="p-5">
@@ -44,7 +40,14 @@ export default async function HomilyListPage() {
                   </h2>
                   <p className="text-sm text-gray-600">{item.summary}</p>
                 </div>
-              </Link>
+                <Link
+                  key={item.id}
+                  href={`/homily/${item.slug}`}
+                  className="inline-block text-emerald-700 font-medium text-sm hover:underline p-5"
+                >
+                  Read More →
+                </Link>
+              </div>
             ))}
           </div>
         </div>
