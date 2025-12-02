@@ -4,15 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
 import Download from "yet-another-react-lightbox/plugins/download";
-
-import "yet-another-react-lightbox/styles.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import "yet-another-react-lightbox/plugins/captions.css";
-
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Captions from "yet-another-react-lightbox/plugins/captions";
+
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import "yet-another-react-lightbox/plugins/captions.css";
 
 export type GalleryImage = {
   id: string;
@@ -23,6 +22,20 @@ export type GalleryImage = {
 
 export default function GalleryClient({ images }: { images: GalleryImage[] }) {
   const [index, setIndex] = useState<number>(-1);
+
+  // ✅ No gallery state
+  if (images.length === 0) {
+    return (
+      <main className="bg-gray-100 min-h-screen py-16 px-4">
+        <div className="max-w-xl mx-auto bg-white p-10 rounded-lg shadow text-center">
+          <h3 className="text-xl font-semibold mb-2">No images available</h3>
+          <p className="text-gray-600">
+            There are no diocesan gallery images at the moment.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-gray-100 min-h-screen py-16 px-4">
