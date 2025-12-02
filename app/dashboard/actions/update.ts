@@ -505,3 +505,69 @@ export async function updateClergyAction(oldId: string, formData: FormData) {
   // revalidatePath(`/clergy/${id}`);
   redirect("/dashboard/admin/clergy");
 }
+
+
+export async function updateGalleryAction(oldSlug: string, formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  const slug = String(formData.get("slug") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+
+  if (!title) {
+    throw new Error("Title is required.");
+  }
+  if (!slug) {
+    throw new Error("Subtitle is required.");
+  }
+
+  const existingGallery = await prisma.galleryImage.findUnique({ where: { slug } });
+  if (!existingGallery) {
+    throw new Error("blog not found.");
+  }
+  let imageUrl = existingGallery.src;
+  const imageFile = formData.get("src");
+  if (imageFile instanceof File && imageFile.size > 0) {
+    try {
+      // Upload new image image
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const uploadResponse = await imagekit.upload({
+        file: buffer,
+        fileName: `Blog-image-${slug}-${Date.now()}.${imageFile.name
+          .split(".")
+          .pop()}`,
+        folder: "/katsina/gallery",
+      });
+      imageUrl = uploadResponse.url;
+
+      // Delete old image image from ImageKit
+      if (existingGallery.src) {
+        const fileId = existingGallery.src.split("/").pop()?.split(".")[0];
+        if (fileId) {
+          try {
+            await imagekit.deleteFile(fileId);
+          } catch (error: any) {
+            console.error(`Failed to delete old image image: ${error.message}`);
+          }
+        }
+      }
+    } catch (error: any) {
+      throw new Error(`Failed to upload image image: ${error.message}`);
+    }
+  }
+
+  await prisma.galleryImage.update({
+    where: { slug: oldSlug },
+    data: {
+      title,
+      slug,
+      src: imageUrl,
+      description,
+    },
+  });
+
+  revalidatePath("/dashboard/admin/gallery");
+  revalidatePath(`/gallery/${slug}`);
+  revalidatePath("/gallery");
+  redirect("/dashboard/admin/gallery");
+}
+

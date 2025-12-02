@@ -8,6 +8,7 @@ import {
   CalendarDays,
   Users,
   Sliders,
+  Image,
 } from "lucide-react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,6 +24,7 @@ const NAV_BY_ROLE: Record<string, Array<{ href: string; label: string; Icon: any
     { href: "/dashboard/admin/clergy", label: "Clergy", Icon: Users },
     { href: "/dashboard/admin/blog", label: "News", Icon: Users },
     { href: "/dashboard/admin/sliders", label: "Sliders", Icon: Sliders },
+    {href:"/dashboard/admin/gallery", label:"Gallery", Icon:Image}
   ],
   clergy: [
     { href: "/dashboard/clergy", label: "Overview", Icon: LayoutDashboard },

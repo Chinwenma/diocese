@@ -82,3 +82,17 @@ export async function deleteSlider(id: string) {
   revalidatePath("/dashboard/admin/sliders");
   revalidatePath("/");
 }
+
+
+
+export async function deleteGallery(id: string) {
+  if (!id) return;
+  try {
+    await prisma.galleryImage.delete({ where: { id} });
+  } catch (e: any) {
+    if (!isRecordNotFound(e)) throw e;
+  }
+  revalidatePath("/dashboard/admin/gallery");
+  revalidatePath("/gallery");
+
+}

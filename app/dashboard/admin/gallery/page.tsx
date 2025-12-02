@@ -26,6 +26,8 @@ export default async function GalleryList({ params }: Props) {
   const [total, items] = await Promise.all([
     prisma.galleryImage.count(),
     prisma.galleryImage.findMany({
+            orderBy: { createdAt: "desc" },
+
       select: {
         title: true,
         slug: true,
@@ -97,14 +99,10 @@ export default async function GalleryList({ params }: Props) {
                   </td>
                   <td className="px-4 py-3 font-medium">{gallery.title}</td>
                   <td className="px-4 py-3 text-slate-500">{gallery.slug}</td>
+                  <td className="px-4 py-3">{gallery.description}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-3">
-                      <Link
-                        className="text-blue-700 hover:underline"
-                        href={`/dashboard/admin/gallery/${gallery.slug}/view`}
-                      >
-                        View
-                      </Link>
+                    
                       <Link
                         className="text-emerald-700 hover:underline"
                         href={`/dashboard/admin/gallery/${gallery.slug}/edit`}
@@ -114,8 +112,8 @@ export default async function GalleryList({ params }: Props) {
 
                       <div>
                         <ConfirmDelete
-                          title="Delete news"
-                          message={`This will permanently delete “${gallery.title}”.`}
+                          title="Delete gallery"
+                          message={`This will permanently delete ${gallery.title}.`}
                           busyText="Deleting..."
                           id={gallery.id}
                           module="gallery"

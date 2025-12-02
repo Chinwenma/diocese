@@ -9,6 +9,7 @@ import { HomilyFormData } from "../bishop/homily/new/page";
 import { SliderFormData } from "../admin/sliders/new/page";
 import { EventFormData } from "../admin/events/new/page";
 import { ClergyFormData } from "../admin/clergy/new/page";
+import { GalleryFormData } from "../admin/gallery/new/page";
 
 /**
  * Creates a new announcement with the provided form data
@@ -131,4 +132,19 @@ export async function createClergy(formData: ClergyFormData) {
   });
   revalidatePath("/dashboard/admin/clergy");
   revalidatePath("/clergy");
+}
+
+export async function createGallery(formData: GalleryFormData) {
+  const { title, slug, description, src } = formData;
+  await prisma.galleryImage.create({
+    data: {
+      title,
+      slug,
+      src,
+      description,
+    },
+  });
+  revalidatePath("/dashboard/admin/gallery");
+  revalidatePath("/gallery");
+  revalidatePath("/");
 }
