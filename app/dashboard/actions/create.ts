@@ -33,7 +33,7 @@ export async function createAnnouncement(formData: AnnouncementFormData) {
 }
 
 /**
- * Creates a new announcement with the provided form data
+ * Creates a new slider with the provided form data
  * @param formData - The data for the new announcement containing title, slug, date, image, description, and details
  * @returns Promise<void>
  */

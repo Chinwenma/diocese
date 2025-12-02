@@ -1,8 +1,8 @@
-
 import { updateEvent } from "@/app/dashboard/actions/update";
 import prisma from "@/lib/prisma";
 import { isObjectId } from "@/lib/slugify";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type PageProps = { params: Promise<{ id: string }> };
@@ -16,9 +16,16 @@ export default async function EditEventPage({ params }: PageProps) {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h2 className="text-xl font-semibold mb-4">Edit Event</h2>
-      <form action={updateEvent.bind(null, slug)} className="space-y-4" encType="multipart/form-data">
+      <form
+        action={updateEvent.bind(null, slug)}
+        className="space-y-4"
+        encType="multipart/form-data"
+      >
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-slate-700"
+          >
             Title
           </label>
           <input
@@ -32,7 +39,6 @@ export default async function EditEventPage({ params }: PageProps) {
         </div>
 
         <div>
-         
           <input
             type="hidden"
             id="slug"
@@ -45,7 +51,10 @@ export default async function EditEventPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label htmlFor="date" className="block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="date"
+            className="block text-sm font-medium text-slate-700"
+          >
             Date
           </label>
           <input
@@ -60,7 +69,14 @@ export default async function EditEventPage({ params }: PageProps) {
 
         <div>
           <p className="mt-1 text-sm text-slate-500">
-            Current: <Image src={ev.cover} alt="cover" width={100} height={100} loading="lazy" />
+            Current:{" "}
+            <Image
+              src={ev.cover}
+              alt="cover"
+              width={100}
+              height={100}
+              loading="lazy"
+            />
           </p>
           {/* <label htmlFor="cover" className="block text-sm font-medium text-slate-700">
             Cover Image
@@ -78,13 +94,19 @@ export default async function EditEventPage({ params }: PageProps) {
 
         <div>
           <div className="mt-1 text-sm text-slate-500">
-            Current: {ev.images.length > 0 ? (
+            Current:{" "}
+            {ev.images.length > 0 ? (
               <div className="flex flex-wrap gap-3 ">
                 {ev.images.map((img, index) => (
-                <Image key={index} src={img} alt="additional" width={100} height={100} />
-              ))}
+                  <Image
+                    key={index}
+                    src={img}
+                    alt="additional"
+                    width={100}
+                    height={100}
+                  />
+                ))}
               </div>
-              
             ) : (
               "None"
             )}
@@ -102,11 +124,13 @@ export default async function EditEventPage({ params }: PageProps) {
             height={300}
             className="w-full border rounded p-2 mt-1"
           /> */}
-        
         </div>
 
         <div>
-          <label htmlFor="excerpt" className="block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="excerpt"
+            className="block text-sm font-medium text-slate-700"
+          >
             Excerpt
           </label>
           <textarea
@@ -120,7 +144,10 @@ export default async function EditEventPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-slate-700">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-slate-700"
+          >
             Content
           </label>
           <textarea
@@ -131,7 +158,6 @@ export default async function EditEventPage({ params }: PageProps) {
             className="w-full border rounded p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={6}
           />
-         
         </div>
 
         <div className="flex gap-3">
@@ -141,12 +167,13 @@ export default async function EditEventPage({ params }: PageProps) {
           >
             Update
           </button>
-          <a
+          <Link
             href="/dashboard/admin/events"
             className="px-4 py-2 border rounded hover:bg-slate-50"
           >
+            {" "}
             Cancel
-          </a>
+          </Link>
         </div>
       </form>
     </div>
